@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Futuristic Portfolio Design System */
+@layer base {
+  :root {
+    /* Dark Cyberpunk Theme */
+    --background: 222 47% 4%;
+    --foreground: 180 100% 95%;
+
+    /* Glassmorphic Cards */
+    --card: 222 47% 8%;
+    --card-foreground: 180 100% 95%;
+
+    --popover: 222 47% 8%;
+    --popover-foreground: 180 100% 95%;
+
+    /* Cyan Primary for Cyberpunk Feel */
+    --primary: 180 100% 50%;
+    --primary-foreground: 222 47% 4%;
+
+    /* Dark Secondary */
+    --secondary: 222 47% 12%;
+    --secondary-foreground: 180 100% 95%;
+
+    /* Muted Dark */
+    --muted: 222 47% 8%;
+    --muted-foreground: 180 30% 70%;
+
+    /* Neon Accent */
+    --accent: 280 100% 60%;
+    --accent-foreground: 222 47% 4%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 180 100% 95%;
+
+    /* Glowing Borders */
+    --border: 222 47% 15%;
+    --input: 222 47% 12%;
+    --ring: 180 100% 50%;
+
+    /* Custom Design Tokens */
+    --neon-cyan: 180 100% 50%;
+    --neon-purple: 280 100% 60%;
+    --neon-blue: 240 100% 60%;
+    --glass-bg: 222 47% 8%;
+    --glass-border: 180 30% 30%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(180 100% 50% / 0.8), hsl(240 100% 60% / 0.8));
+    --gradient-card: linear-gradient(135deg, hsl(222 47% 8% / 0.7), hsl(222 47% 12% / 0.9));
+    --gradient-hero: linear-gradient(180deg, hsl(222 47% 4%), hsl(222 47% 8%));
+    
+    /* Animations */
+    --animation-glow: 0 0 20px hsl(var(--neon-cyan) / 0.5);
+    --animation-float: translateY(-10px);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans overflow-x-hidden;
+    background: var(--gradient-hero);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+  }
+}
+
+@layer components {
+  /* Glassmorphism Card */
+  .glass-card {
+    @apply bg-card/70 backdrop-blur-xl border border-border/30 rounded-xl;
+    background: var(--gradient-card);
+    box-shadow: 0 8px 32px hsl(var(--primary) / 0.1);
+  }
+
+  /* Neon Button */
+  .neon-button {
+    @apply relative px-6 py-3 font-medium text-primary-foreground rounded-lg transition-all duration-300;
+    background: var(--gradient-primary);
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+
+  .neon-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px hsl(var(--primary) / 0.5);
+  }
+
+  /* Floating Animation */
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  /* Glow Text */
+  .glow-text {
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.5);
+  }
+
+  /* Particle Background */
+  .particles-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Section Spacing - Responsive */
+  .section-padding {
+    @apply py-16 px-6 md:py-32 md:px-12 lg:px-24;
+  }
+
+  /* Custom Scrollbar - Cinematic */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary) / 0.3);
+    border-radius: 10px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary) / 0.6);
+  }
+
+  /* Text Reveal Utility */
+  .text-reveal {
+    @apply overflow-hidden block;
+  }
+
+  /* Mobile Grid Fix */
+  .mobile-grid-fix {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6;
+  }
+}
+
+@layer utilities {
+  .animate-gradient-xy {
+    animation: gradient-xy 15s ease infinite;
+    background-size: 400% 400%;
+  }
+
+  @keyframes gradient-xy {
+    0%, 100% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}/* Dashboard & Advanced UI Components */
+@layer components {
+  /* Dashboard Card */
+  .dashboard-card {
+    @apply relative p-8 glass-card border-white/5 bg-black/40 overflow-hidden hover:border-primary/40 transition-all duration-700;
+  }
+
+  /* Metric Card */
+  .metric-card {
+    @apply flex flex-col p-6 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/[0.08] transition-all;
+  }
+
+  /* Status Badge */
+  .status-badge {
+    @apply px-3 py-1 rounded-full text-[8px] tracking-widest font-black uppercase flex items-center gap-2;
+  }
+
+  /* HUD Box */
+  .hud-box {
+    @apply absolute top-4 left-4 right-4 flex justify-between items-start pointer-events-none;
+  }
+
+  /* Recruiter Profile Card */
+  .recruiter-hero {
+    @apply relative p-12 rounded-[3rem] bg-gradient-to-br from-primary/10 to-transparent border border-primary/20 overflow-hidden;
+  }
+
+  /* Advanced Theme Transition */
+  * {
+    transition: background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s ease;
+  }
+}
+
+/* Light Theme Overrides */
+.light {
+  --background: 0 0% 98%;
+  --foreground: 222 47% 4%;
+  --card: 0 0% 95%;
+  --card-foreground: 222 47% 4%;
+  --primary: 222 47% 12%;
+  --primary-foreground: 0 0% 100%;
+  --muted: 0 0% 90%;
+  --muted-foreground: 215 16% 47%;
+  --border: 0 0% 85%;
+  --gradient-hero: linear-gradient(180deg, #f8f9fa, #ffffff);
+  --gradient-card: linear-gradient(135deg, rgba(0,0,0,0.02), rgba(0,0,0,0.05));
+}
+
+.light .glass-card {
+  background: white;
+  border-color: rgba(0,0,0,0.05);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+.light .gradient-text {
+  background: linear-gradient(135deg, #1a1a1a, #4a4a4a);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
