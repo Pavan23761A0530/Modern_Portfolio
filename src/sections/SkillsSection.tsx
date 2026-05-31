@@ -3,11 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Cpu, Globe, Database, Shield, Layout, Server, Cloud, Terminal, CheckCircle2, Search } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
 
-const Zap = ({ className, size }: { className?: string; size?: number }) => (
+const Zap = ({ className }: { className?: string }) => (
   <svg 
     xmlns="http://www.w3.org/2000/svg" 
-    width={size || 24} 
-    height={size || 24} 
     viewBox="0 0 24 24" 
     fill="none" 
     stroke="currentColor" 
@@ -58,7 +56,7 @@ const skills = [
   { name: "Network Defense", category: "security", level: 75, icon: Shield, color: "from-gray-700 to-black" },
   
   { name: "Power BI", category: "all", level: 95, icon: Database, color: "from-yellow-400 to-yellow-600" },
-  { name: "Cursor AI", category: "all", level: 100, icon: Terminal, color: "from-primary to-accent" },
+  { name: "Cursor AI", category: "all", level: 100, icon: Terminal, color: "from-cyan-400 via-blue-500 to-purple-500" },
 ];
 
 const SkillsSection: React.FC = () => {
@@ -75,53 +73,53 @@ const SkillsSection: React.FC = () => {
       {/* Background Grids */}
       <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-primary/5 to-transparent pointer-events-none"></div>
       
-      <div className="container mx-auto relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
            initial={{ opacity: 0, y: 30 }}
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true }}
-           className="text-center mb-16"
+           className="text-center mb-12 md:mb-16"
         >
-          <h3 className="text-primary font-display tracking-[0.5em] text-[10px] mb-4 uppercase">Capacities.bin</h3>
-          <h2 className="text-4xl md:text-6xl font-display font-black leading-tight">TECHNICAL <span className="gradient-text">ARSENAL</span></h2>
-          <p className="text-muted-foreground max-w-xl mx-auto font-light mt-6">
+          <h3 className="text-primary font-display tracking-[0.5em] text-[8px] sm:text-[10px] mb-4 uppercase">Capacities.bin</h3>
+          <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-black leading-tight">TECHNICAL <span className="gradient-text">ARSENAL</span></h2>
+          <p className="text-muted-foreground max-w-xl mx-auto font-light mt-4 md:mt-6 text-sm md:text-base">
              A high-density collection of professional protocols and intelligence frameworks optimized for global performance.
           </p>
         </motion.div>
 
         {/* Filter Controls */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
-          <div className="flex flex-wrap items-center justify-center gap-2 p-1 glass-card border-white/5 rounded-2xl">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-8 md:mb-12">
+          <div className="flex flex-wrap items-center justify-center gap-1.5 p-1 glass-card border-white/5 rounded-2xl w-full md:w-auto">
             {categories.map((cat) => (
               <button
                 key={cat.id}
                 onClick={() => setActiveCategory(cat.id)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] tracking-wider font-bold transition-all duration-500 uppercase ${
+                className={`flex items-center gap-1.5 px-3 py-2 sm:px-4 rounded-xl text-[8px] sm:text-[10px] tracking-wider font-bold transition-all duration-500 uppercase ${
                   activeCategory === cat.id 
                     ? 'bg-primary text-black shadow-[0_0_20px_rgba(0,255,255,0.3)]' 
                     : 'text-muted-foreground hover:bg-white/5'
                 }`}
               >
-                <cat.icon size={14} />
+                <cat.icon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                 <span className="hidden sm:inline">{cat.name}</span>
               </button>
             ))}
           </div>
 
           <div className="relative group w-full md:w-64">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" size={16} />
+            <Search className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors w-3.5 h-3.5 sm:w-4 sm:h-4" />
             <input 
               type="text" 
               placeholder="SCAN ARSENAL..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 pl-12 pr-4 focus:outline-none focus:border-primary/50 transition-all font-display text-[10px] tracking-widest uppercase"
+              className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 md:py-3 pl-10 md:pl-12 pr-3 md:pr-4 focus:outline-none focus:border-primary/50 transition-all font-display text-[8px] sm:text-[10px] tracking-widest uppercase"
             />
           </div>
         </div>
 
         {/* Skills Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 min-h-[600px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 min-h-[500px] md:min-h-[600px]">
           <AnimatePresence mode='popLayout'>
             {filteredSkills.map((skill, i) => (
               <motion.div
@@ -130,16 +128,16 @@ const SkillsSection: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.8, y: 20 }}
-                transition={{ duration: 0.4, delay: i * 0.05 }}
+                transition={{ duration: 0.4, delay: i * 0.03 }}
               >
-                <Tilt tiltMaxAngleX={15} tiltMaxAngleY={15} className="h-full">
-                  <div className="glass-card p-6 h-full flex flex-col group border-white/5 hover:border-primary/20 transition-all duration-500 relative overflow-hidden group">
+                <Tilt tiltMaxAngleX={12} tiltMaxAngleY={12} className="h-full">
+                  <div className="glass-card p-4 md:p-6 h-full flex flex-col group border-white/5 hover:border-primary/20 transition-all duration-500 relative overflow-hidden">
                     {/* Animated background glow */}
                     <div className={`absolute -right-8 -bottom-8 w-24 h-24 bg-gradient-to-br ${skill.color} blur-[50px] opacity-0 group-hover:opacity-30 transition-opacity duration-700`}></div>
                     
-                    <div className="flex justify-between items-start mb-6">
-                      <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center text-primary border border-white/10 group-hover:bg-primary group-hover:text-black transition-all">
-                        <skill.icon size={20} />
+                    <div className="flex justify-between items-start mb-4 md:mb-6">
+                      <div className="w-9 h-9 md:w-10 md:h-10 rounded-lg bg-white/5 flex items-center justify-center text-primary border border-white/10 group-hover:bg-primary group-hover:text-black transition-all">
+                        <skill.icon className="w-4 h-4 md:w-5 md:h-5" />
                       </div>
                       <div className="flex items-center gap-1">
                         {[1,2,3].map(dot => (
@@ -148,12 +146,12 @@ const SkillsSection: React.FC = () => {
                       </div>
                     </div>
 
-                    <h4 className="font-display font-bold text-sm tracking-widest text-foreground group-hover:text-primary transition-colors mb-4 uppercase">
+                    <h4 className="font-display font-bold text-xs md:text-sm tracking-widest text-foreground group-hover:text-primary transition-colors mb-3 md:mb-4 uppercase">
                       {skill.name}
                     </h4>
 
-                    <div className="mt-auto space-y-3">
-                      <div className="flex justify-between items-center text-[8px] tracking-[.3em] font-bold text-muted-foreground uppercase">
+                    <div className="mt-auto space-y-2 md:space-y-3">
+                      <div className="flex justify-between items-center text-[7px] md:text-[8px] tracking-[.3em] font-bold text-muted-foreground uppercase">
                         <span>Proficiency</span>
                         <span className="font-mono text-primary">{skill.level}%</span>
                       </div>
@@ -171,7 +169,7 @@ const SkillsSection: React.FC = () => {
                     {/* Verified indicator for high level */}
                     {skill.level >= 90 && (
                       <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                         <CheckCircle2 size={12} className="text-primary" />
+                         <CheckCircle2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-primary" />
                       </div>
                     )}
                   </div>

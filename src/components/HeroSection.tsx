@@ -7,7 +7,7 @@ import RotatingTitles from './RotatingTitles';
 const HeroSection: React.FC = () => {
   const handleDownloadResume = () => {
     const link = document.createElement('a');
-    link.href = 'https://drive.google.com/uc?export=download&id=1KOGSHRC7rIKJ1CsTv9FWvAfWL2z9KYg7';
+    link.href = 'https://drive.google.com/uc?export=download&id=1nd5uTIW5BTanaLyojMsVWlTzK5vFXLL9';
     link.download = 'Pavan_Kumar_Ganesh_Resume.pdf';
     link.target = '_blank';
     link.click();

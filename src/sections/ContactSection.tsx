@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Github, Linkedin, Mail, Send, CheckCircle2, Download, Terminal, MessageSquare, Globe, Activity, Rocket, FileText } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
-import resumePDF from '@/assets/resume.pdf';
 
 const ContactSection: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -49,9 +48,9 @@ const ContactSection: React.FC = () => {
   };
 
   const socialLinks = [
-    { icon: <Github size={24} />, href: "https://github.com/Pavan23761A0530", label: "Source Protocol", name: "GitHub" },
-    { icon: <Linkedin size={24} />, href: "https://www.linkedin.com/feed/", label: "Sync Network", name: "LinkedIn" },
-    { icon: <Mail size={24} />, href: "mailto:kommojupavankumarganesh@gmail.com", label: "Direct Uplink", name: "Email" }
+    { icon: <Github className="w-6 h-6" />, href: "https://github.com/Pavan23761A0530", label: "Source Protocol", name: "GitHub" },
+    { icon: <Linkedin className="w-6 h-6" />, href: "https://www.linkedin.com/feed/", label: "Sync Network", name: "LinkedIn" },
+    { icon: <Mail className="w-6 h-6" />, href: "mailto:kommojupavankumarganesh@gmail.com", label: "Direct Uplink", name: "Email" }
   ];
 
   return (
@@ -61,7 +60,7 @@ const ContactSection: React.FC = () => {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 blur-[200px] rounded-full"></div>
       </div>
 
-      <div className="container mx-auto relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
           
           {/* Left: Branding & Message */}
@@ -108,7 +107,7 @@ const ContactSection: React.FC = () => {
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-6">
                <div className="flex items-center gap-6 p-6 rounded-3xl bg-white/5 border border-white/10 flex-grow">
                   <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
-                     <Activity size={28} />
+                     <Activity className="w-7 h-7" />
                   </div>
                   <div>
                      <p className="text-[10px] tracking-widest text-primary font-black uppercase mb-1">Current Status</p>
@@ -117,13 +116,13 @@ const ContactSection: React.FC = () => {
                </div>
 
                <motion.a
-                 href={resumePDF}
+                 href="https://drive.google.com/file/d/1nd5uTIW5BTanaLyojMsVWlTzK5vFXLL9/view?usp=drive_link"
                  target="_blank"
                  rel="noopener noreferrer"
                  whileHover={{ y: -5 }}
                  className="glass-card p-6 flex flex-col items-center justify-center gap-2 border-white/10 hover:border-primary/50 transition-all group"
                >
-                  <FileText size={24} className="text-primary group-hover:scale-110 transition-transform" />
+                  <FileText className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
                   <span className="text-[9px] font-display font-black tracking-widest uppercase">Resume</span>
                </motion.a>
             </div>
@@ -137,11 +136,11 @@ const ContactSection: React.FC = () => {
           >
             <div className="glass-card p-10 md:p-14 border-white/10 relative overflow-hidden group">
                <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                  <Rocket size={150} className="text-primary rotate-45" />
+                  <Rocket className="w-[150px] h-[150px] text-primary rotate-45" />
                </div>
                
                <h3 className="text-2xl font-display font-black text-white mb-10 flex items-center gap-4 uppercase tracking-tighter">
-                  <Terminal size={24} className="text-primary" />
+                  <Terminal className="w-6 h-6 text-primary" />
                   INITIATE_CONTACT
                </h3>
 
@@ -206,13 +205,13 @@ const ContactSection: React.FC = () => {
                     <span className="font-display tracking-[0.5em] uppercase text-xs relative z-10 group-hover:text-black transition-colors font-black">
                       {isSubmitting ? "UPLOADING..." : isSuccess ? "TRANSMITTED" : "TRANSMIT MESSAGE"}
                     </span>
-                    {isSuccess ? <CheckCircle2 size={24} className="relative z-10" /> : <Send size={24} className="relative z-10 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />}
+                    {isSuccess ? <CheckCircle2 className="w-6 h-6 relative z-10" /> : <Send className="w-6 h-6 relative z-10 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />}
                   </button>
                </form>
 
                {/* Recruiter Friendly Tag */}
                <div className="mt-8 flex items-center justify-center gap-2 opacity-30">
-                  <Globe size={12} />
+                  <Globe className="w-3 h-3" />
                   <span className="text-[8px] tracking-widest uppercase font-mono">End-to-End Encrypted Recruitment Protocol</span>
                </div>
             </div>

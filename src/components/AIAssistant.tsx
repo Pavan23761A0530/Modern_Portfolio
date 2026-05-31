@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send, Sparkles, Cpu, Rocket, Download, Terminal, User, Bot, FileText } from 'lucide-react';
-import resumePDF from '@/assets/resume.pdf';
 
 const AI_NAME = "PAVAN_AI-V1";
 
@@ -91,7 +90,7 @@ const AIAssistant: React.FC = () => {
         className="fixed bottom-10 right-10 z-[150] w-16 h-16 rounded-2xl bg-primary text-black flex items-center justify-center shadow-[0_0_30px_rgba(0,255,255,0.4)] group overflow-hidden"
       >
         <div className="absolute inset-0 bg-white/20 -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-        <Sparkles size={28} className="relative z-10" />
+        <Sparkles className="w-7 h-7 relative z-10" />
       </motion.button>
 
       {/* Chat Modal Interface */}
@@ -107,7 +106,7 @@ const AIAssistant: React.FC = () => {
             <div className="p-6 bg-primary/10 border-b border-primary/20 flex items-center justify-between">
                <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary relative">
-                     <Cpu size={20} />
+                     <Cpu className="w-5 h-5" />
                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-black animate-pulse"></div>
                   </div>
                   <div>
@@ -116,7 +115,7 @@ const AIAssistant: React.FC = () => {
                   </div>
                </div>
                <button onClick={() => setIsOpen(false)} className="text-white hover:text-red-500 transition-colors">
-                  <X size={20} />
+                  <X className="w-5 h-5" />
                </button>
             </div>
 
@@ -138,21 +137,21 @@ const AIAssistant: React.FC = () => {
                         : 'bg-primary/20 border border-primary/40 rounded-tr-none'
                     }`}>
                        <div className="flex items-center gap-2 mb-1">
-                          {msg.role === 'bot' ? <Bot size={12} className="text-primary" /> : <User size={12} className="text-accent" />}
+                          {msg.role === 'bot' ? <Bot className="w-3 h-3 text-primary" /> : <User className="w-3 h-3 text-accent" />}
                           <span className="text-[8px] font-black tracking-widest uppercase opacity-50">{msg.role}</span>
                        </div>
                        <p className="text-[13px] leading-relaxed font-light tracking-wide">{msg.text}</p>
                        
                        {msg.role === 'bot' && msg.text === RESPONSES.resume && (
                           <motion.a
-                            href={resumePDF}
+                            href="https://drive.google.com/file/d/1nd5uTIW5BTanaLyojMsVWlTzK5vFXLL9/view?usp=drive_link"
                             target="_blank"
                             rel="noopener noreferrer"
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             className="mt-4 flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-primary text-black font-display font-black text-[10px] uppercase tracking-widest shadow-[0_0_20px_rgba(0,255,255,0.2)] hover:shadow-[0_0_30px_rgba(0,255,255,0.4)] transition-all"
                           >
-                             <Download size={14} />
+                             <Download className="w-3.5 h-3.5" />
                              Download Protocol
                           </motion.a>
                        )}
@@ -203,7 +202,7 @@ const AIAssistant: React.FC = () => {
                     onClick={() => handleSendMessage(inputValue)}
                     className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-lg bg-primary/20 text-primary flex items-center justify-center hover:bg-primary hover:text-black transition-all"
                   >
-                    <Send size={18} />
+                    <Send className="w-4.5 h-4.5" />
                   </button>
                </div>
                <div className="mt-4 flex justify-between items-center opacity-30">

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, ArrowUpRight, Cpu, Globe, Database, Shield, Zap, Search, Maximize2, X, Activity, Eye, Home, Star } from 'lucide-react';
+import { ExternalLink, Github, ArrowUpRight, Cpu, Globe, Database, Shield, Zap, Search, Maximize2, Activity, Eye, Home, Star } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
 
 import carPriceImg from '@/assets/car-price-project.jpg';
@@ -97,6 +97,26 @@ const ProjectsSection: React.FC = () => {
 
   const filteredProjects = projects.filter(p => activeCategory === 'all' || p.category === activeCategory);
 
+  const closeModal = useCallback(() => {
+    setSelectedProject(null);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedProject) {
+        closeModal();
+      }
+    };
+
+    if (selectedProject) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedProject, closeModal]);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const { currentTarget, clientX, clientY } = e;
     const { left, top } = currentTarget.getBoundingClientRect();
@@ -113,36 +133,37 @@ const ProjectsSection: React.FC = () => {
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/10 blur-[150px] rounded-full pointer-events-none"></div>
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:48px_48px] pointer-events-none"></div>
 
-      <div className="container mx-auto relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
            initial={{ opacity: 0, y: 30 }}
            whileInView={{ opacity: 1, y: 0 }}
            viewport={{ once: true }}
-           className="flex flex-col md:flex-row justify-between items-end mb-24 gap-8"
+           className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 md:mb-16 lg:mb-24 gap-6"
         >
           <div className="max-w-2xl">
-            <h3 className="text-primary font-display tracking-[0.5em] text-[10px] mb-4 uppercase">Archive.sys</h3>
-            <h2 className="text-4xl md:text-7xl font-display font-black leading-tight uppercase tracking-tighter">CRAFTED <br /><span className="gradient-text">ECOSYSTEMS</span></h2>
+            <h3 className="text-primary font-display tracking-[0.5em] text-[9px] md:text-[10px] mb-3 md:mb-4 uppercase">Archive.sys</h3>
+            <h2 className="text-3xl md:text-4xl lg:text-6xl font-display font-black leading-tight uppercase tracking-tighter">CRAFTED <br /><span className="gradient-text">ECOSYSTEMS</span></h2>
           </div>
           
-          <div className="flex bg-white/5 border border-white/10 rounded-2xl p-1 backdrop-blur-xl">
+          <div className="flex w-full md:w-auto bg-white/5 border border-white/10 rounded-xl md:rounded-2xl p-1 backdrop-blur-xl">
              {categories.map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`px-6 py-3 rounded-xl text-[10px] tracking-widest font-bold uppercase transition-all duration-500 flex items-center gap-2 ${
+                  className={`flex-1 md:flex-none px-3 md:px-6 py-2.5 md:py-3 rounded-lg md:rounded-xl text-[8px] md:text-[10px] tracking-widest font-bold uppercase transition-all duration-500 flex items-center justify-center md:justify-start gap-1.5 md:gap-2 ${
                     activeCategory === cat.id ? 'bg-primary text-black shadow-[0_0_20px_rgba(0,255,255,0.3)]' : 'text-muted-foreground hover:text-white'
                   }`}
                 >
-                  <cat.icon size={14} />
-                  <span className="hidden lg:block">{cat.name}</span>
+                  <cat.icon className="w-3 h-3 md:w-3.5 md:h-3.5" />
+                  <span className="hidden sm:block">{cat.name}</span>
+                  <span className="sm:hidden">{cat.id}</span>
                 </button>
              ))}
           </div>
         </motion.div>
 
         {/* Project Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => (
               <motion.div
@@ -185,14 +206,14 @@ const ProjectsSection: React.FC = () => {
                       {/* Project Icon HUD */}
                       <div className="absolute top-4 left-4 z-10">
                          <div className="w-10 h-10 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(0,255,255,0.2)]">
-                            <project.icon size={18} />
+                            <project.icon className="w-4.5 h-4.5" />
                          </div>
                       </div>
 
                       {/* Featured Star */}
                       {project.featured && (
                         <div className="absolute top-4 right-4 bg-primary/20 backdrop-blur-md border border-primary/40 px-3 py-1 rounded-full flex items-center gap-2 z-10">
-                           <Star size={10} className="text-primary fill-primary" />
+                           <Star className="w-2.5 h-2.5 text-primary fill-primary" />
                            <span className="text-[8px] font-black text-primary tracking-widest uppercase">Featured</span>
                         </div>
                       )}
@@ -205,7 +226,7 @@ const ProjectsSection: React.FC = () => {
                           {project.title}
                         </h3>
                         <div className="flex gap-2">
-                           <ArrowUpRight size={20} className="text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
+                           <ArrowUpRight className="w-5 h-5 text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
                         </div>
                       </div>
                       
@@ -251,7 +272,7 @@ const ProjectsSection: React.FC = () => {
                               }}
                             >
                                Live Demo
-                               <ExternalLink size={10} />
+                               <ExternalLink className="w-2.5 h-2.5" />
                             </motion.a>
                             <motion.a
                               href={project.githubUrl}
@@ -261,8 +282,8 @@ const ProjectsSection: React.FC = () => {
                               whileTap={project.githubUrl !== '#' ? { scale: 0.95 } : {}}
                               className={`px-4 py-2 rounded-lg font-display font-black text-[8px] uppercase tracking-widest flex items-center gap-2 transition-all ${
                                 project.githubUrl !== '#'
-                                ? 'bg-white/5 border border-white/10 text-white hover:border-primary/40'
-                                : 'bg-white/5 text-white/20 border border-white/5 cursor-not-allowed'
+                                  ? 'bg-white/5 border border-white/10 text-white hover:border-primary/40'
+                                  : 'bg-white/5 text-white/20 border border-white/5 cursor-not-allowed'
                               }`}
                               onClick={(e) => {
                                 if (project.githubUrl === '#') e.preventDefault();
@@ -270,7 +291,7 @@ const ProjectsSection: React.FC = () => {
                               }}
                             >
                                Source
-                               <Github size={10} />
+                               <Github className="w-2.5 h-2.5" />
                             </motion.a>
                           </div>
                         )}
@@ -282,7 +303,7 @@ const ProjectsSection: React.FC = () => {
                            </div>
                            <button className="text-[9px] font-bold tracking-[0.2em] uppercase flex items-center gap-2 group/btn text-muted-foreground group-hover:text-primary transition-colors">
                               VIEW SYSTEM
-                              <Maximize2 size={12} className="group-hover/btn:scale-110 transition-transform" />
+                              <Maximize2 className="w-3 h-3 group-hover/btn:scale-110 transition-transform" />
                            </button>
                         </div>
                       </div>
@@ -304,19 +325,17 @@ const ProjectsSection: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-2xl p-6 md:p-20 flex items-center justify-center"
+            onClick={closeModal}
           >
+
+
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.9, y: 20 }}
+              onClick={(e) => e.stopPropagation()}
               className="glass-card w-full max-w-6xl max-h-[90vh] overflow-auto relative flex flex-col lg:flex-row border-white/10"
             >
-              <button 
-                onClick={() => setSelectedProject(null)}
-                className="absolute top-6 right-6 z-50 w-12 h-12 rounded-full glass-card border-white/10 flex items-center justify-center hover:bg-red-500/20 hover:border-red-500/50 hover:text-red-500 transition-all font-bold"
-              >
-                <X size={24} />
-              </button>
 
               {/* Modal Image Section */}
               <div className="lg:w-1/2 relative bg-black/40">
@@ -324,7 +343,7 @@ const ProjectsSection: React.FC = () => {
                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                  <div className="absolute bottom-12 left-12 right-12">
                      <div className="w-20 h-20 rounded-3xl bg-primary/20 backdrop-blur-2xl border border-primary/30 flex items-center justify-center text-primary mb-6 shadow-[0_0_50px_rgba(0,255,255,0.2)]">
-                        <selectedProject.icon size={40} />
+                        <selectedProject.icon className="w-10 h-10" />
                      </div>
                      <h2 className="text-5xl font-display font-black text-white uppercase tracking-tighter mb-2">{selectedProject.title}</h2>
                      <p className="text-primary font-display text-xs tracking-[0.5em] uppercase font-bold">{selectedProject.category} // protocol</p>
@@ -383,7 +402,7 @@ const ProjectsSection: React.FC = () => {
                          className="neon-button px-10 py-5 flex items-center gap-3 group overflow-hidden flex-grow justify-center text-center"
                        >
                            <span className="font-display tracking-[0.4em] uppercase text-[10px] font-bold">Initiate Live Demo</span>
-                           <ExternalLink size={16} className="group-hover:rotate-45 transition-transform" />
+                           <ExternalLink className="w-4 h-4 group-hover:rotate-45 transition-transform" />
                        </motion.a>
                        <motion.a 
                          href={selectedProject.githubUrl}
@@ -393,7 +412,7 @@ const ProjectsSection: React.FC = () => {
                          whileTap={{ scale: 0.98 }}
                          className="glass-card px-10 py-5 flex items-center gap-3 border-white/10 hover:border-primary/40 group flex-grow justify-center text-center"
                        >
-                           <Github size={20} className="group-hover:text-primary transition-colors" />
+                           <Github className="w-5 h-5 group-hover:text-primary transition-colors" />
                            <span className="font-display tracking-[0.4em] uppercase text-[10px] font-bold">Access Source</span>
                        </motion.a>
                     </div>

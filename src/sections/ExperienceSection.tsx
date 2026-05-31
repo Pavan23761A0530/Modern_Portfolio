@@ -18,6 +18,16 @@ import Tilt from 'react-parallax-tilt';
 
 const journeyData = [
   {
+    type: 'internship',
+    date: 'MAY 2026 – JULY 2026',
+    title: 'Full Stack Development Intern',
+    institution: 'YugantaAI Pvt. Ltd.',
+    desc: 'Developed and maintained full-stack web applications using the MERN Stack. Collaborated with the development team to build scalable, responsive, and user-friendly solutions.',
+    icon: Briefcase,
+    color: 'primary',
+    featured: true
+  },
+  {
     type: 'education',
     date: '2023 - PRESENT',
     title: 'B.Tech in Computer Science',
@@ -89,7 +99,7 @@ const ExperienceSection: React.FC = () => {
       {/* Background Neural Line */}
       <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-transparent via-primary/30 to-transparent hidden lg:block"></div>
 
-      <div className="container mx-auto relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
            initial={{ opacity: 0, y: 30 }}
            whileInView={{ opacity: 1, y: 0 }}
@@ -118,12 +128,12 @@ const ExperienceSection: React.FC = () => {
                 <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={2000}>
                    <div className={`glass-card p-10 relative group border-white/5 hover:border-primary/40 transition-all duration-700 ${item.featured ? 'border-primary/20 shadow-[0_0_50px_rgba(0,255,255,0.1)]' : ''}`}>
                       <div className="absolute -top-6 -left-6 opacity-5 group-hover:opacity-10 transition-opacity">
-                         <item.icon size={100} className="text-primary" />
+                         <item.icon className="w-[100px] h-[100px] text-primary" />
                       </div>
 
                       <div className="flex items-center gap-6 mb-8 relative z-10">
                          <div className={`w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all shadow-[0_0_30px_rgba(0,255,255,0.15)]`}>
-                            <item.icon size={24} />
+                            <item.icon className="w-6 h-6" />
                          </div>
                          <div>
                             <p className="text-[10px] tracking-[0.4em] font-black text-primary uppercase mb-1">{item.date}</p>
@@ -136,12 +146,12 @@ const ExperienceSection: React.FC = () => {
                       
                       <div className="flex items-center justify-between pt-6 border-t border-white/5">
                          <div className="flex items-center gap-2">
-                             <Activity size={14} className="text-primary animate-pulse" />
+                             <Activity className="w-3.5 h-3.5 text-primary animate-pulse" />
                              <span className="text-[9px] tracking-widest uppercase font-bold text-muted-foreground">Status: <span className="text-primary">SYNCED</span></span>
                          </div>
                          {item.featured && (
                             <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/20 border border-primary/40 text-[8px] font-black text-primary uppercase">
-                               <Rocket size={10} />
+                               <Rocket className="w-2.5 h-2.5" />
                                Elite Selection
                             </div>
                          )}

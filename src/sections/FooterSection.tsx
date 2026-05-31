@@ -27,9 +27,9 @@ const FooterSection: React.FC = () => {
   ];
 
   const socialLinks = [
-    { icon: <Github size={18} />, href: "https://github.com/Pavan23761A0530", label: "GitHub" },
-    { icon: <Linkedin size={18} />, href: "https://www.linkedin.com/feed/", label: "LinkedIn" },
-    { icon: <Mail size={18} />, href: "mailto:kommojupavankumarganesh@gmail.com", label: "Email" }
+    { icon: <Github className="w-[18px] h-[18px]" />, href: "https://github.com/Pavan23761A0530", label: "GitHub" },
+    { icon: <Linkedin className="w-[18px] h-[18px]" />, href: "https://www.linkedin.com/feed/", label: "LinkedIn" },
+    { icon: <Mail className="w-[18px] h-[18px]" />, href: "mailto:kommojupavankumarganesh@gmail.com", label: "Email" }
   ];
 
   return (
@@ -37,7 +37,7 @@ const FooterSection: React.FC = () => {
       {/* Cinematic Divider */}
       <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
       
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-16 items-start mb-24">
           
           {/* Logo & Status */}
@@ -48,7 +48,7 @@ const FooterSection: React.FC = () => {
                onClick={scrollToTop}
             >
                <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary border border-primary/40 shadow-[0_0_30px_rgba(0,255,255,0.2)]">
-                  <Cpu size={24} />
+                  <Cpu className="w-6 h-6" />
                </div>
                <div>
                   <h2 className="text-2xl font-display font-black text-white tracking-tighter uppercase leading-none">PKG.SYS</h2>
@@ -108,17 +108,17 @@ const FooterSection: React.FC = () => {
           {/* Recognition HUD */}
           <div className="md:col-span-4 p-8 glass-card border-white/5 bg-white/[0.02] relative group overflow-hidden">
              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                <Globe size={100} className="text-primary" />
+                <Globe className="w-[100px] h-[100px] text-primary" />
              </div>
              <h4 className="text-[10px] tracking-[0.4em] font-black text-primary uppercase mb-6 flex items-center gap-2">
-                <Star size={12} className="fill-primary" />
+                <Star className="w-3 h-3 fill-primary" />
                 Elite Showcase
              </h4>
              <p className="text-xs text-muted-foreground font-light leading-relaxed mb-6">
                 Recognized globally for innovation and engineering excellence in high-stakes competition.
              </p>
              <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary">
-                <ShieldCheck size={16} />
+                <ShieldCheck className="w-4 h-4" />
                 <span className="text-[9px] font-black tracking-widest uppercase">NASA GLOBAL WINNER 2024</span>
              </div>
           </div>
@@ -136,7 +136,7 @@ const FooterSection: React.FC = () => {
              className="group flex items-center gap-3 px-6 py-3 rounded-full glass-card border-white/10 hover:border-primary/40 transition-all"
            >
               <span className="text-[9px] tracking-[0.4em] font-black text-muted-foreground group-hover:text-primary transition-colors uppercase">Return to Peak</span>
-              <ChevronUp size={16} className="text-primary group-hover:-translate-y-1 transition-transform" />
+              <ChevronUp className="w-4 h-4 text-primary group-hover:-translate-y-1 transition-transform" />
            </button>
         </div>
       </div>

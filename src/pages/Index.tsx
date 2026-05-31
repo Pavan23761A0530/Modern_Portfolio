@@ -8,7 +8,6 @@ import LoadingScreen from '@/components/LoadingScreen';
 import HeroSection from '@/sections/HeroSection';
 import RecruiterSection from '@/sections/RecruiterSection';
 import AboutSection from '@/sections/AboutSection';
-import GithubDashboard from '@/sections/GithubDashboard';
 import ExperienceSection from '@/sections/ExperienceSection';
 import SkillsSection from '@/sections/SkillsSection';
 import ProjectsSection from '@/sections/ProjectsSection';
@@ -46,7 +45,6 @@ const Index = () => {
           
           <RecruiterSection />
           <AboutSection />
-          <GithubDashboard />
           <ExperienceSection />
           <SkillsSection />
           <ProjectsSection />

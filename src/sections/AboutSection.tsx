@@ -38,7 +38,7 @@ const AboutSection: React.FC = () => {
       <div className="absolute top-1/4 -right-1/4 w-[500px] h-[500px] bg-primary/10 blur-[150px] rounded-full pointer-events-none"></div>
       <div className="absolute bottom-1/4 -left-1/4 w-[500px] h-[500px] bg-accent/10 blur-[150px] rounded-full pointer-events-none"></div>
 
-      <div className="container mx-auto relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="flex flex-col lg:flex-row gap-16 items-start">
           
           {/* Left: Identity Card */}
@@ -51,7 +51,7 @@ const AboutSection: React.FC = () => {
             <Tilt tiltMaxAngleX={5} tiltMaxAngleY={5} perspective={1000}>
               <div className="glass-card p-10 relative group overflow-hidden border-primary/20">
                 <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-opacity">
-                   <Users size={120} className="text-primary" />
+                   <Users className="w-[120px] h-[120px] text-primary" />
                 </div>
                 
                 <h3 className="text-primary font-display tracking-[0.5em] text-[10px] mb-4 uppercase">System.status</h3>
@@ -70,7 +70,7 @@ const AboutSection: React.FC = () => {
                   {stats.map((stat, i) => (
                     <div key={i} className="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-primary/30 transition-all group/stat">
                       <div className="text-primary mb-2 transition-transform group-hover/stat:scale-110">
-                         <stat.icon size={20} />
+                         <stat.icon className="w-5 h-5" />
                       </div>
                       <p className="text-xl font-display font-black text-white">{stat.value}</p>
                       <p className="text-[8px] tracking-widest text-muted-foreground uppercase">{stat.label}</p>
@@ -93,7 +93,7 @@ const AboutSection: React.FC = () => {
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="p-8 glass-card border-white/5 hover:border-primary/20 transition-all">
                    <h4 className="font-display font-bold text-lg mb-4 flex items-center gap-3">
-                      <Zap className="text-primary" size={20} />
+                      <Zap className="text-primary w-5 h-5" />
                       AI ARCHITECT
                    </h4>
                    <p className="text-sm text-muted-foreground leading-relaxed font-light">
@@ -102,7 +102,7 @@ const AboutSection: React.FC = () => {
                 </div>
                 <div className="p-8 glass-card border-white/5 hover:border-primary/20 transition-all">
                    <h4 className="font-display font-bold text-lg mb-4 flex items-center gap-3">
-                      <Shield className="text-accent" size={20} />
+                      <Shield className="text-accent w-5 h-5" />
                       SEC_OPS ENTHUSIAST
                    </h4>
                    <p className="text-sm text-muted-foreground leading-relaxed font-light">
@@ -127,14 +127,14 @@ const AboutSection: React.FC = () => {
                     className="group flex flex-col md:flex-row items-center gap-8 p-1 glass-card border-white/5 hover:bg-white/[0.03] transition-all"
                   >
                     <div className={`w-full md:w-48 aspect-video md:aspect-square rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center text-white shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-500`}>
-                       <item.icon size={48} strokeWidth={1.5} />
+                       <item.icon className="w-12 h-12" strokeWidth={1.5} />
                     </div>
                     <div className="p-6 md:p-0">
                       <h4 className="text-2xl font-display font-bold mb-3 group-hover:text-primary transition-colors">{item.title}</h4>
                       <p className="text-muted-foreground font-light leading-relaxed max-w-2xl">{item.desc}</p>
                       <div className="mt-4 flex items-center gap-2 text-primary font-display text-[10px] tracking-widest font-bold opacity-0 group-hover:opacity-100 transition-all">
                         <span>DETAILED REPORT</span>
-                        <TrendingUp size={12} />
+                        <TrendingUp className="w-3 h-3" />
                       </div>
                     </div>
                   </motion.div>

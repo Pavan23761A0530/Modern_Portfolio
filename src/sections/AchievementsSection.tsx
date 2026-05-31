@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Trophy, Award, Star, Target, Globe, Rocket, Zap, TrendingUp, Medal, ChevronLeft, ChevronRight, X, ExternalLink, Eye, Shield } from 'lucide-react';
+import { Trophy, Award, Star, Target, Globe, Rocket, Zap, TrendingUp, Medal, ChevronLeft, ChevronRight, ExternalLink, Eye, Shield } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
 
 const achievements = [
+  {
+    id: "yugantaai",
+    title: "Full Stack Development Intern | YugantaAI Pvt. Ltd.",
+    category: "PROFESSIONAL EXPERIENCE",
+    description: "Successfully completed a Full Stack Development Internship at YugantaAI Pvt. Ltd., where I developed and maintained full-stack web applications using the MERN Stack. Contributed to both frontend and backend development while collaborating with the development team to build scalable, responsive, and user-friendly solutions.",
+    metric: "MAY 2026 – JULY 2026",
+    icon: Rocket,
+    color: "from-cyan-600/20 to-blue-600/20",
+    glowColor: "rgba(6, 182, 212, 0.5)",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&q=80&w=1200",
+    credentials: [
+      "https://drive.google.com/file/d/1YGHxynwlJdXpCJ1HcUN0r2mIKWS_i5ko/view?usp=sharing"
+    ]
+  },
   {
     id: "nasa",
     title: "NASA Space Apps Global Winner",
@@ -61,7 +75,7 @@ const achievements = [
     icon: Shield,
     color: "from-emerald-600/20 to-teal-600/20",
     glowColor: "rgba(16, 185, 129, 0.5)",
-    image: "https://images.unsplash.com/photo-1521791136064-7986c2959210?auto=format&fit=crop&q=80&w=1200",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=1200",
     credentials: [
       "https://drive.google.com/file/d/1kbydXpjtVrjBeCmtPN3N--vd6wWUDc-b/view?usp=sharing"
     ]
@@ -78,9 +92,9 @@ const AchievementsSection: React.FC = () => {
     setCurrentImageIndex(0);
   };
 
-  const closeGallery = () => {
+  const closeGallery = useCallback(() => {
     setActiveGallery(null);
-  };
+  }, []);
 
   const nextImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
@@ -103,13 +117,35 @@ const AchievementsSection: React.FC = () => {
     return url;
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && activeGallery) {
+        closeGallery();
+      }
+      if (e.key === 'ArrowRight' && activeGallery) {
+        nextImage();
+      }
+      if (e.key === 'ArrowLeft' && activeGallery) {
+        prevImage();
+      }
+    };
+
+    if (activeGallery) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeGallery, closeGallery]);
+
   return (
     <section id="achievements" className="section-padding relative overflow-hidden bg-black/40">
       {/* Background Cinematic Spotlights */}
       <div className="absolute top-0 left-1/4 w-[1px] h-full bg-gradient-to-b from-transparent via-primary/20 to-transparent"></div>
       <div className="absolute top-0 right-1/4 w-[1px] h-full bg-gradient-to-b from-transparent via-accent/20 to-transparent"></div>
 
-      <div className="container mx-auto relative z-10">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
            initial={{ opacity: 0, y: 30 }}
            whileInView={{ opacity: 1, y: 0 }}
@@ -124,7 +160,7 @@ const AchievementsSection: React.FC = () => {
                 <p className="text-[8px] tracking-widest text-muted-foreground uppercase">Global Win</p>
              </div>
              <div className="px-6 py-4 glass-card border-white/5 flex flex-col items-center">
-                <p className="text-4xl font-display font-black text-white">05+</p>
+                <p className="text-4xl font-display font-black text-white">06+</p>
                 <p className="text-[8px] tracking-widest text-muted-foreground uppercase">Major Awards</p>
              </div>
              <div className="px-6 py-4 glass-card border-white/5 flex flex-col items-center">
@@ -153,10 +189,10 @@ const AchievementsSection: React.FC = () => {
                      {item.image ? (
                        <img src={item.image} alt={item.title} className="absolute inset-0 w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-110" />
                      ) : (
-                       <item.icon size={60} className="relative z-10 text-white transition-transform duration-700 group-hover:scale-110" />
+                       <item.icon className="w-[60px] h-[60px] relative z-10 text-white transition-transform duration-700 group-hover:scale-110" />
                      )}
                      <div className="absolute top-4 left-4">
-                        <Star size={16} className="text-white/20" />
+                        <Star className="w-4 h-4 text-white/20" />
                      </div>
                   </div>
 
@@ -164,7 +200,7 @@ const AchievementsSection: React.FC = () => {
                   <div className="p-8 md:p-10 flex flex-col flex-grow bg-white/[0.02] min-h-[350px]">
                     <div className="flex justify-between items-start mb-4">
                       <span className="text-[8px] tracking-[0.4em] font-black text-primary uppercase">{item.category}</span>
-                      <Medal size={16} className="text-white/10 group-hover:text-primary transition-colors" />
+                      <Medal className="w-4 h-4 text-white/10 group-hover:text-primary transition-colors" />
                     </div>
                     
                     <h3 className="text-xl md:text-2xl font-display font-black text-white group-hover:text-primary transition-all leading-tight uppercase mb-4 tracking-tighter line-clamp-2">
@@ -182,14 +218,14 @@ const AchievementsSection: React.FC = () => {
                         onClick={() => openGallery(item.credentials!)}
                         className="mb-8 self-start px-5 py-2.5 rounded-xl bg-primary/10 border border-primary/20 text-primary font-display font-black text-[9px] tracking-widest uppercase hover:bg-primary hover:text-black transition-all flex items-center gap-3 shadow-[0_0_20px_rgba(0,255,255,0.1)] hover:shadow-[0_0_30px_rgba(0,255,255,0.3)]"
                       >
-                        <Eye size={14} />
+                        <Eye className="w-3.5 h-3.5" />
                         View Credentials
                       </motion.button>
                     )}
 
                     <div className="flex items-center justify-between pt-6 border-t border-white/5">
                       <div className="flex items-center gap-3">
-                         <TrendingUp size={16} className="text-primary" />
+                         <TrendingUp className="w-4 h-4 text-primary" />
                          <span className="text-[9px] font-display font-black text-white tracking-[0.1em]">{item.metric}</span>
                       </div>
                       <div className="flex gap-1">
@@ -215,6 +251,8 @@ const AchievementsSection: React.FC = () => {
             onClick={closeGallery}
             className="fixed inset-0 z-[300] bg-black/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-12"
           >
+
+
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
@@ -222,12 +260,6 @@ const AchievementsSection: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-6xl aspect-[4/3] md:aspect-video glass-card border-white/10 overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.5)]"
             >
-              <button
-                onClick={closeGallery}
-                className="absolute top-6 right-6 z-[310] w-12 h-12 rounded-full glass-card border-white/10 flex items-center justify-center hover:bg-red-500/20 hover:border-red-500/50 hover:text-red-500 transition-all"
-              >
-                <X size={24} />
-              </button>
 
               <div className="absolute inset-0 flex items-center justify-center p-8 md:p-16">
                 <AnimatePresence mode="wait">
@@ -254,7 +286,7 @@ const AchievementsSection: React.FC = () => {
                   onClick={prevImage}
                   className="w-12 h-12 rounded-full glass-card border-white/10 flex items-center justify-center hover:border-primary/50 text-white/50 hover:text-primary transition-all"
                 >
-                  <ChevronLeft size={24} />
+                  <ChevronLeft className="w-6 h-6" />
                 </button>
               </div>
               <div className="absolute inset-y-0 right-4 flex items-center">
@@ -262,7 +294,7 @@ const AchievementsSection: React.FC = () => {
                   onClick={nextImage}
                   className="w-12 h-12 rounded-full glass-card border-white/10 flex items-center justify-center hover:border-primary/50 text-white/50 hover:text-primary transition-all"
                 >
-                  <ChevronRight size={24} />
+                  <ChevronRight className="w-6 h-6" />
                 </button>
               </div>
 

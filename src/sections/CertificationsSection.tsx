@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Award, ExternalLink, ShieldCheck, Zap, Globe, Cpu, Cloud, Database, Layout, Eye, X, ChevronLeft, ChevronRight, Binary, Server, Terminal, Monitor, Code } from 'lucide-react';
+import { Award, ExternalLink, ShieldCheck, Zap, Globe, Cpu, Cloud, Database, Layout, Eye, ChevronLeft, ChevronRight, Binary, Server, Terminal, Monitor, Code } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
 
 const certifications = [
@@ -118,9 +118,9 @@ const CertificationsSection: React.FC = () => {
     setCurrentImageIndex(0);
   };
 
-  const closeGallery = () => {
+  const closeGallery = useCallback(() => {
     setActiveGallery(null);
-  };
+  }, []);
 
   const nextImage = (e?: React.MouseEvent) => {
     e?.stopPropagation();
@@ -143,12 +143,34 @@ const CertificationsSection: React.FC = () => {
     return url;
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && activeGallery) {
+        closeGallery();
+      }
+      if (e.key === 'ArrowRight' && activeGallery) {
+        nextImage();
+      }
+      if (e.key === 'ArrowLeft' && activeGallery) {
+        prevImage();
+      }
+    };
+
+    if (activeGallery) {
+      document.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [activeGallery, closeGallery]);
+
   return (
     <section id="certifications" className="section-padding relative overflow-hidden bg-background">
       {/* Background Gradients */}
       <div className="absolute top-1/2 -left-1/4 w-[600px] h-[600px] bg-primary/5 blur-[200px] rounded-full pointer-events-none animate-pulse"></div>
 
-      <div className="container mx-auto relative z-10 px-6">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -187,13 +209,13 @@ const CertificationsSection: React.FC = () => {
                     {/* Floating Icon HUD */}
                     <div className="absolute top-6 left-6 z-10">
                       <div className="w-12 h-12 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(0,255,255,0.2)]">
-                        <cert.icon size={20} />
+                        <cert.icon className="w-5 h-5" />
                       </div>
                     </div>
 
                     <div className="absolute top-6 right-6">
                        <div className="px-3 py-1 rounded-full bg-primary/20 backdrop-blur-md border border-primary/40 flex items-center gap-2">
-                          <ShieldCheck size={10} className="text-primary" />
+                          <ShieldCheck className="w-2.5 h-2.5 text-primary" />
                           <span className="text-[8px] tracking-widest uppercase text-primary font-black">Verified</span>
                        </div>
                     </div>
@@ -223,7 +245,7 @@ const CertificationsSection: React.FC = () => {
                         onClick={() => openGallery(cert.credentials)}
                         className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center bg-white/5 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-xl group/btn"
                       >
-                        <Eye size={18} className="group-hover/btn:scale-110 transition-transform" />
+                        <Eye className="w-4.5 h-4.5 group-hover/btn:scale-110 transition-transform" />
                       </button>
                     </div>
 
@@ -247,6 +269,8 @@ const CertificationsSection: React.FC = () => {
             onClick={closeGallery}
             className="fixed inset-0 z-[300] bg-black/95 backdrop-blur-2xl flex items-center justify-center p-4 md:p-12"
           >
+
+
             <motion.div
               initial={{ scale: 0.9, y: 20 }}
               animate={{ scale: 1, y: 0 }}
@@ -254,12 +278,6 @@ const CertificationsSection: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-6xl aspect-[4/3] md:aspect-video glass-card border-white/10 overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.5)]"
             >
-              <button
-                onClick={closeGallery}
-                className="absolute top-6 right-6 z-[310] w-12 h-12 rounded-full glass-card border-white/10 flex items-center justify-center hover:bg-red-500/20 hover:border-red-500/50 hover:text-red-500 transition-all"
-              >
-                <X size={24} />
-              </button>
 
               <div className="absolute inset-0 flex items-center justify-center p-8 md:p-16">
                 <AnimatePresence mode="wait">
@@ -288,7 +306,7 @@ const CertificationsSection: React.FC = () => {
                       onClick={prevImage}
                       className="w-12 h-12 rounded-full glass-card border-white/10 flex items-center justify-center hover:border-primary/50 text-white/50 hover:text-primary transition-all"
                     >
-                      <ChevronLeft size={24} />
+                      <ChevronLeft className="w-6 h-6" />
                     </button>
                   </div>
                   <div className="absolute inset-y-0 right-4 flex items-center">
@@ -296,7 +314,7 @@ const CertificationsSection: React.FC = () => {
                       onClick={nextImage}
                       className="w-12 h-12 rounded-full glass-card border-white/10 flex items-center justify-center hover:border-primary/50 text-white/50 hover:text-primary transition-all"
                     >
-                      <ChevronRight size={24} />
+                      <ChevronRight className="w-6 h-6" />
                     </button>
                   </div>
                   {/* Counter HUD */}

@@ -17,7 +17,6 @@ import {
   Linkedin,
   Activity
 } from 'lucide-react';
-import resumePDF from '@/assets/resume.pdf';
 
 const highlights = [
   { text: "NASA Space Apps Global Global Winner", icon: Star },
@@ -51,7 +50,7 @@ const RecruiterSection: React.FC = () => {
                    whileInView={{ opacity: 1, x: 0 }}
                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary mb-8"
                  >
-                    <Users size={16} />
+                    <Users className="w-4 h-4" />
                     <span className="text-[10px] tracking-[0.4em] font-black uppercase">Recruiter Protocol</span>
                  </motion.div>
 
@@ -68,7 +67,7 @@ const RecruiterSection: React.FC = () => {
                     {highlights.map((item, i) => (
                        <div key={i} className="flex items-center gap-4 group/item">
                           <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-primary border border-white/10 group-hover/item:border-primary/40 transition-all">
-                             <item.icon size={18} />
+                             <item.icon className="w-4.5 h-4.5" />
                           </div>
                           <span className="text-[11px] tracking-widest font-black uppercase text-foreground/80">{item.text}</span>
                        </div>
@@ -81,15 +80,15 @@ const RecruiterSection: React.FC = () => {
                       className="neon-button px-10 py-5 flex items-center gap-4 group overflow-hidden"
                     >
                        <span className="relative z-10 font-display font-black tracking-[0.4em] text-[10px] uppercase">Executive Summary</span>
-                       <TrendingUp size={20} className="relative z-10 group-hover:scale-110 transition-transform" />
+                       <TrendingUp className="w-5 h-5 relative z-10 group-hover:scale-110 transition-transform" />
                     </button>
                     <a 
-                      href={resumePDF}
+                      href="https://drive.google.com/file/d/1nd5uTIW5BTanaLyojMsVWlTzK5vFXLL9/view?usp=drive_link"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="glass-card px-10 py-5 border-white/10 hover:border-primary/40 flex items-center gap-4 group"
                     >
-                       <FileText size={20} />
+                       <FileText className="w-5 h-5" />
                        <span className="font-display font-black tracking-[0.4em] text-[10px] uppercase">One-Page Profile</span>
                     </a>
                  </div>
@@ -130,10 +129,10 @@ const RecruiterSection: React.FC = () => {
 
                     <div className="p-8 rounded-2xl bg-white/5 border border-white/5 mt-10">
                        <div className="flex items-center gap-4 mb-4">
-                          <CheckCircle size={24} className="text-primary" />
+                          <CheckCircle className="w-6 h-6 text-primary" />
                           <h4 className="text-sm font-display font-black text-white uppercase tracking-widest">Hiring Available</h4>
                        </div>
-                       <p className="text-[10px] text-muted-foreground leading-relaxed uppercase tracking-widest font-bold">Currently exploring high-impact AI/Full Stack engineering roles. Optimization ready for global teams.</p>
+                       <p className="text-[10px] text-muted-foreground leading-relaxed uppercase tracking-widest">Currently exploring high-impact AI/Full Stack engineering roles. Optimization ready for global teams.</p>
                     </div>
                  </div>
               </div>
@@ -157,7 +156,7 @@ const RecruiterSection: React.FC = () => {
                className="glass-card w-full max-w-4xl max-h-[85vh] overflow-auto p-12 md:p-20 border-primary/20 relative"
              >
                 <button onClick={() => setIsOpen(false)} className="absolute top-10 right-10 text-muted-foreground hover:text-red-500 transition-colors">
-                   <X size={32} />
+                   <X className="w-8 h-8" />
                 </button>
 
                 <div className="space-y-16">
@@ -170,7 +169,7 @@ const RecruiterSection: React.FC = () => {
                       <div className="space-y-10">
                          <div className="space-y-4">
                             <h4 className="text-sm font-display font-black text-white tracking-widest uppercase flex items-center gap-3">
-                               <Rocket size={18} className="text-primary" />
+                               <Rocket className="w-4.5 h-4.5 text-primary" />
                                Innovator DNA
                             </h4>
                             <p className="text-sm text-muted-foreground leading-relaxed font-light">
@@ -179,7 +178,7 @@ const RecruiterSection: React.FC = () => {
                          </div>
                          <div className="space-y-4">
                             <h4 className="text-sm font-display font-black text-white tracking-widest uppercase flex items-center gap-3">
-                               <Terminal size={18} className="text-primary" />
+                               <Terminal className="w-4.5 h-4.5 text-primary" />
                                Full-Stack Mastery
                             </h4>
                             <p className="text-sm text-muted-foreground leading-relaxed font-light">
@@ -191,7 +190,7 @@ const RecruiterSection: React.FC = () => {
                       <div className="space-y-10">
                          <div className="space-y-4">
                             <h4 className="text-sm font-display font-black text-white tracking-widest uppercase flex items-center gap-3">
-                               <Shield size={18} className="text-primary" />
+                               <Shield className="w-4.5 h-4.5 text-primary" />
                                Security Focused
                             </h4>
                             <p className="text-sm text-muted-foreground leading-relaxed font-light">
@@ -200,7 +199,7 @@ const RecruiterSection: React.FC = () => {
                          </div>
                          <div className="space-y-4">
                             <h4 className="text-sm font-display font-black text-white tracking-widest uppercase flex items-center gap-3">
-                               <Activity size={18} className="text-primary" />
+                               <Activity className="w-4.5 h-4.5 text-primary" />
                                Optimization Freak
                             </h4>
                             <p className="text-sm text-muted-foreground leading-relaxed font-light">
@@ -213,16 +212,16 @@ const RecruiterSection: React.FC = () => {
                    <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
                       <div className="flex gap-6">
                          <a href="#" className="flex items-center gap-2 text-primary hover:text-white transition-colors">
-                            <Mail size={18} />
+                            <Mail className="w-4.5 h-4.5" />
                             <span className="text-[10px] font-black uppercase tracking-widest font-display underline underline-offset-4">Direct Message</span>
                          </a>
                          <a href="#" className="flex items-center gap-2 text-primary hover:text-white transition-colors">
-                            <Linkedin size={18} />
+                            <Linkedin className="w-4.5 h-4.5" />
                             <span className="text-[10px] font-black uppercase tracking-widest font-display underline underline-offset-4">LinkedIn Sync</span>
                          </a>
                       </div>
                       <a 
-                        href={resumePDF}
+                        href="https://drive.google.com/file/d/1nd5uTIW5BTanaLyojMsVWlTzK5vFXLL9/view?usp=drive_link"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="neon-button px-10 py-5 font-display font-black text-[10px] uppercase tracking-widest"
