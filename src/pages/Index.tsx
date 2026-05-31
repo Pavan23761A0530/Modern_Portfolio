@@ -1,5 +1,4 @@
 import React from 'react';
-import Scene3D from '@/components/Scene3D';
 import CustomCursor from '@/components/CustomCursor';
 import Navigation from '@/components/Navigation';
 import AIAssistant from '@/components/AIAssistant';
