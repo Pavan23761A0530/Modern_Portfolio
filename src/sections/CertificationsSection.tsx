@@ -3,7 +3,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Award, ExternalLink, ShieldCheck, Zap, Globe, Cpu, Cloud, Database, Layout, Eye, ChevronLeft, ChevronRight, Binary, Server, Terminal, Monitor, Code } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
 
-const certifications = [
+interface Certification {
+  title: string;
+  issuer: string;
+  type: string;
+  date: string;
+  icon: React.ElementType;
+  description: string;
+  credentials: string[];
+  image: string;
+}
+
+const certifications: Certification[] = [
   {
     title: "AWS Cloud Practitioner",
     issuer: "Amazon Web Services",
@@ -122,19 +133,19 @@ const CertificationsSection: React.FC = () => {
     setActiveGallery(null);
   }, []);
 
-  const nextImage = (e?: React.MouseEvent) => {
+  const nextImage = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
     if (activeGallery) {
       setCurrentImageIndex((prev) => (prev + 1) % activeGallery.length);
     }
-  };
+  }, [activeGallery]);
 
-  const prevImage = (e?: React.MouseEvent) => {
+  const prevImage = useCallback((e?: React.MouseEvent) => {
     e?.stopPropagation();
     if (activeGallery) {
       setCurrentImageIndex((prev) => (prev - 1 + activeGallery.length) % activeGallery.length);
     }
-  };
+  }, [activeGallery]);
 
   const getEmbedUrl = (url: string) => {
     if (url.includes('drive.google.com')) {
@@ -163,7 +174,7 @@ const CertificationsSection: React.FC = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [activeGallery, closeGallery]);
+  }, [activeGallery, closeGallery, nextImage, prevImage]);
 
   return (
     <section id="certifications" className="section-padding relative overflow-hidden bg-background">
@@ -177,10 +188,10 @@ const CertificationsSection: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mb-24"
         >
-          <h3 className="text-primary font-display tracking-[0.5em] text-[10px] mb-4 uppercase">Credentials.vault</h3>
-          <h2 className="text-4xl md:text-7xl font-display font-black leading-tight tracking-tighter uppercase">ELITE <span className="gradient-text">CERTIFICATION</span></h2>
+          <h3 className="text-primary font-display tracking-[0.5em] text-[10px] mb-4 uppercase">Credentials</h3>
+          <h2 className="text-4xl md:text-7xl font-display font-bold leading-tight tracking-tighter">Elite <span className="gradient-text-purple-cyan">Certifications</span></h2>
           <p className="text-muted-foreground max-w-xl mx-auto font-light mt-6 font-display text-[10px] tracking-widest">
-             UNAUTHORIZED ACCESS PROTECTED // VERIFIED PROTOCOLS ONLY
+             Verified certifications from top industry organizations
           </p>
         </motion.div>
 
@@ -206,17 +217,17 @@ const CertificationsSection: React.FC = () => {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
                     
-                    {/* Floating Icon HUD */}
-                    <div className="absolute top-6 left-6 z-10">
-                      <div className="w-12 h-12 rounded-xl bg-black/60 backdrop-blur-md border border-white/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-black transition-all duration-500 shadow-[0_0_20px_rgba(0,255,255,0.2)]">
-                        <cert.icon className="w-5 h-5" />
+                    {/* Icon Overlay */}
+                    <div className="absolute bottom-6 left-6 z-10">
+                      <div className="w-16 h-16 rounded-xl bg-primary/20 backdrop-blur-md border border-primary/40 flex items-center justify-center shadow-xl">
+                        <cert.icon className="h-8 w-8 text-primary" />
                       </div>
                     </div>
 
                     <div className="absolute top-6 right-6">
                        <div className="px-3 py-1 rounded-full bg-primary/20 backdrop-blur-md border border-primary/40 flex items-center gap-2">
                           <ShieldCheck className="w-2.5 h-2.5 text-primary" />
-                          <span className="text-[8px] tracking-widest uppercase text-primary font-black">Verified</span>
+                          <span className="text-[8px] tracking-widest uppercase text-primary font-bold">Verified</span>
                        </div>
                     </div>
                   </div>
@@ -227,7 +238,7 @@ const CertificationsSection: React.FC = () => {
                     
                     <div className="relative z-10 space-y-4">
                       <h4 className="text-[9px] tracking-[0.4em] uppercase text-primary/60 font-bold group-hover:text-primary transition-colors">{cert.type}</h4>
-                      <h3 className="text-xl font-display font-black text-white group-hover:text-primary transition-all leading-tight uppercase tracking-tight line-clamp-2 min-h-[3rem]">
+                      <h3 className="text-xl font-display font-bold text-white group-hover:text-primary transition-all leading-tight">
                         {cert.title}
                       </h3>
                     </div>
@@ -238,8 +249,8 @@ const CertificationsSection: React.FC = () => {
 
                     <div className="flex items-center justify-between pt-6 border-t border-white/5 relative z-10 mt-auto">
                       <div className="flex flex-col">
-                         <span className="text-[7px] tracking-[0.2em] font-bold text-muted-foreground uppercase mb-1">Issuer Protocol:</span>
-                         <span className="text-[10px] font-display font-black text-foreground uppercase tracking-wider">{cert.issuer}</span>
+                         <span className="text-[7px] tracking-[0.2em] font-bold text-muted-foreground uppercase mb-1">Issuer:</span>
+                         <span className="text-[10px] font-display font-bold text-foreground">{cert.issuer}</span>
                       </div>
                       <button 
                         onClick={() => openGallery(cert.credentials)}
@@ -318,7 +329,7 @@ const CertificationsSection: React.FC = () => {
                     </button>
                   </div>
                   {/* Counter HUD */}
-                  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-6 py-2 rounded-full glass-card border-white/10 text-[10px] font-display font-black tracking-[0.4em] text-primary uppercase">
+                  <div className="absolute bottom-8 left-1/2 -translate-x-1/2 px-6 py-2 rounded-full glass-card border-white/10 text-[10px] font-display font-bold tracking-[0.4em] text-primary uppercase">
                     {currentImageIndex + 1} / {activeGallery.length}
                   </div>
                 </>

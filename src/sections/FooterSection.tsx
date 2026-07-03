@@ -15,15 +15,15 @@ const FooterSection: React.FC = () => {
 
   const scrollToTop = () => {
      window.scrollTo({ top: 0, behavior: 'smooth' });
-   };
+  };
 
    const currentYear = new Date().getFullYear();
 
    const navLinks = [
-    { name: "Identity", href: "#about" },
-    { name: "Arsenal", href: "#skills" },
-    { name: "Ecosystems", href: "#projects" },
-    { name: "Uplink", href: "#contact" },
+    { name: "About", href: "#about" },
+    { name: "Skills", href: "#skills" },
+    { name: "Projects", href: "#projects" },
+    { name: "Contact", href: "#contact" },
   ];
 
   const socialLinks = [
@@ -51,13 +51,13 @@ const FooterSection: React.FC = () => {
                   <Cpu className="w-6 h-6" />
                </div>
                <div>
-                  <h2 className="text-2xl font-display font-black text-white tracking-tighter uppercase leading-none">PKG.SYS</h2>
-                  <p className="text-[9px] tracking-[0.4em] font-black text-primary uppercase mt-1">V2.0 Neural Node</p>
+                  <h2 className="text-2xl font-display font-black text-white tracking-tighter uppercase leading-none">Pavan Portfolio</h2>
+                  <p className="text-[9px] tracking-[0.4em] font-black text-primary uppercase mt-1">Building Solutions</p>
                </div>
             </motion.div>
 
             <p className="text-muted-foreground text-sm font-light leading-relaxed max-w-sm">
-               Engineering high-performance intelligence ecosystems and production-grade full-stack architectures. Defining the future of AI-driven software.
+               Passionate developer focused on building practical, user-friendly applications with clean code and modern technologies.
             </p>
 
             <div className="flex items-center gap-6">
@@ -67,10 +67,10 @@ const FooterSection: React.FC = () => {
                </div>
                <div className="w-[1px] h-8 bg-white/10"></div>
                <div className="flex flex-col">
-                  <span className="text-[7px] tracking-[0.3em] font-black text-muted-foreground uppercase mb-1">Node Status</span>
+                  <span className="text-[7px] tracking-[0.3em] font-black text-muted-foreground uppercase mb-1">Status</span>
                   <div className="flex items-center gap-2">
                      <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                     <span className="text-xs font-mono text-white">OPERATIONAL</span>
+                     <span className="text-xs font-mono text-white">Active</span>
                   </div>
                </div>
             </div>
@@ -92,7 +92,7 @@ const FooterSection: React.FC = () => {
 
           {/* Connect */}
           <div className="md:col-span-2 space-y-8">
-             <h4 className="text-[10px] tracking-[0.4em] font-black text-white uppercase">Uplink Protocols</h4>
+             <h4 className="text-[10px] tracking-[0.4em] font-black text-white uppercase">Connect</h4>
              <ul className="space-y-4">
                 {socialLinks.map((link) => (
                    <li key={link.label}>
@@ -105,21 +105,21 @@ const FooterSection: React.FC = () => {
              </ul>
           </div>
 
-          {/* Recognition HUD */}
+          {/* Recognition */}
           <div className="md:col-span-4 p-8 glass-card border-white/5 bg-white/[0.02] relative group overflow-hidden">
              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Globe className="w-[100px] h-[100px] text-primary" />
              </div>
              <h4 className="text-[10px] tracking-[0.4em] font-black text-primary uppercase mb-6 flex items-center gap-2">
                 <Star className="w-3 h-3 fill-primary" />
-                Elite Showcase
+                Achievements
              </h4>
              <p className="text-xs text-muted-foreground font-light leading-relaxed mb-6">
-                Recognized globally for innovation and engineering excellence in high-stakes competition.
+                NASA Space Apps Global Winner and recognized for innovative software solutions.
              </p>
              <div className="flex items-center gap-3 px-4 py-2 rounded-xl bg-primary/10 border border-primary/20 text-primary">
                 <ShieldCheck className="w-4 h-4" />
-                <span className="text-[9px] font-black tracking-widest uppercase">NASA GLOBAL WINNER 2024</span>
+                <span className="text-[9px] font-black tracking-widest uppercase">Global Award Winner</span>
              </div>
           </div>
 
@@ -128,14 +128,14 @@ const FooterSection: React.FC = () => {
         {/* Bottom Bar */}
         <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
            <p className="text-[9px] tracking-widest text-muted-foreground font-mono uppercase">
-              © {currentYear} PAVAN KUMAR GANESH. ALL SYSTEM DATA PROTECTED BY AES-256.
+              © {currentYear} Pavan Kumar Ganesh. All rights reserved.
            </p>
 
            <button 
              onClick={scrollToTop}
              className="group flex items-center gap-3 px-6 py-3 rounded-full glass-card border-white/10 hover:border-primary/40 transition-all"
            >
-              <span className="text-[9px] tracking-[0.4em] font-black text-muted-foreground group-hover:text-primary transition-colors uppercase">Return to Peak</span>
+              <span className="text-[9px] tracking-[0.4em] font-black text-muted-foreground group-hover:text-primary transition-colors uppercase">Back to Top</span>
               <ChevronUp className="w-4 h-4 text-primary group-hover:-translate-y-1 transition-transform" />
            </button>
         </div>

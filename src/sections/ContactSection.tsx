@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Linkedin, Mail, Send, CheckCircle2, Download, Terminal, MessageSquare, Globe, Activity, Rocket, FileText } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Github, Linkedin, Mail, Send, CheckCircle2, Download, Terminal, Activity, Rocket, FileText } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
+import { toast } from 'sonner';
 
 const ContactSection: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -18,8 +19,33 @@ const ContactSection: React.FC = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const validateForm = () => {
+    if (!formData.name.trim()) {
+      toast.error('Please enter your name');
+      return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error('Please enter a valid email address');
+      return false;
+    }
+    if (!formData.subject.trim()) {
+      toast.error('Please enter a subject');
+      return false;
+    }
+    if (!formData.message.trim()) {
+      toast.error('Please enter a message');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) return;
+    if (isSubmitting) return;
+
     setIsSubmitting(true);
     
     try {
@@ -30,27 +56,35 @@ const ContactSection: React.FC = () => {
           'Accept': 'application/json'
         },
         body: JSON.stringify({
-          ...formData,
-          _timestamp: new Date().toLocaleString()
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+          _subject: `New Contact Form Submission: ${formData.subject}`,
+          _template: 'table'
         })
       });
 
       if (response.ok) {
         setIsSuccess(true);
+        toast.success('Message sent successfully!');
         setFormData({ name: '', email: '', subject: '', message: '' });
         setTimeout(() => setIsSuccess(false), 5000);
+      } else {
+        throw new Error('Failed to send message');
       }
     } catch (error) {
       console.error('Contact error:', error);
+      toast.error('Something went wrong. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
   const socialLinks = [
-    { icon: <Github className="w-6 h-6" />, href: "https://github.com/Pavan23761A0530", label: "Source Protocol", name: "GitHub" },
-    { icon: <Linkedin className="w-6 h-6" />, href: "https://www.linkedin.com/feed/", label: "Sync Network", name: "LinkedIn" },
-    { icon: <Mail className="w-6 h-6" />, href: "mailto:kommojupavankumarganesh@gmail.com", label: "Direct Uplink", name: "Email" }
+    { icon: <Github className="w-6 h-6" />, href: "https://github.com/Pavan23761A0530", label: "GitHub", name: "GitHub" },
+    { icon: <Linkedin className="w-6 h-6" />, href: "https://www.linkedin.com/feed/", label: "LinkedIn", name: "LinkedIn" },
+    { icon: <Mail className="w-6 h-6" />, href: "mailto:kommojupavankumarganesh@gmail.com", label: "Email", name: "Email" }
   ];
 
   return (
@@ -71,16 +105,16 @@ const ContactSection: React.FC = () => {
           >
             <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-md mb-8">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-[10px] tracking-[0.4em] font-black text-primary uppercase">Uplink.available</span>
+              <span className="text-[10px] tracking-[0.4em] font-black text-primary uppercase">Available for Work</span>
             </div>
             
             <h2 className="text-5xl md:text-8xl font-display font-black leading-[0.9] mb-10 tracking-tighter uppercase">
-              LET'S BUILD <br />
-              <span className="gradient-text glow-text">THE FUTURE</span>
+              Let's Build <br />
+              <span className="gradient-text glow-text">Something Great</span>
             </h2>
 
             <p className="text-xl text-muted-foreground font-light leading-relaxed mb-12 max-w-lg">
-              Recruitment protocols are currently open. I am available for high-density engineering roles and innovative collaborations globally.
+              I'm currently open to new opportunities. Whether you have a project in mind or just want to connect, feel free to reach out.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
@@ -111,7 +145,7 @@ const ContactSection: React.FC = () => {
                   </div>
                   <div>
                      <p className="text-[10px] tracking-widest text-primary font-black uppercase mb-1">Current Status</p>
-                     <p className="text-lg font-display font-bold text-white uppercase tracking-tight">OPEN FOR OPPORTUNITIES</p>
+                     <p className="text-lg font-display font-bold text-white uppercase tracking-tight">Open for Opportunities</p>
                   </div>
                </div>
 
@@ -128,7 +162,7 @@ const ContactSection: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Right: Advanced Contact Form */}
+          {/* Right: Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -141,60 +175,60 @@ const ContactSection: React.FC = () => {
                
                <h3 className="text-2xl font-display font-black text-white mb-10 flex items-center gap-4 uppercase tracking-tighter">
                   <Terminal className="w-6 h-6 text-primary" />
-                  INITIATE_CONTACT
+                  Get In Touch
                </h3>
 
                <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
                   <div className="grid md:grid-cols-2 gap-8">
                     <div className="space-y-2 group/field">
-                      <label className="text-[10px] tracking-[0.4em] font-black text-muted-foreground uppercase transition-colors group-focus-within/field:text-primary">Source Name</label>
+                      <label className="text-[10px] tracking-[0.4em] font-black text-muted-foreground uppercase transition-colors group-focus-within/field:text-primary">Name</label>
                       <input 
                         required 
                         type="text" 
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        placeholder="ENTER IDENTIFIER..."
-                        className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:outline-none focus:border-primary/50 transition-all font-display text-[11px] tracking-widest uppercase text-white shadow-2xl"
+                        placeholder="Your name"
+                        className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:outline-none focus:border-primary/50 transition-all font-display text-sm text-white shadow-2xl"
                       />
                     </div>
                     <div className="space-y-2 group/field">
-                      <label className="text-[10px] tracking-[0.4em] font-black text-muted-foreground uppercase transition-colors group-focus-within/field:text-primary">Return Path (Email)</label>
+                      <label className="text-[10px] tracking-[0.4em] font-black text-muted-foreground uppercase transition-colors group-focus-within/field:text-primary">Email</label>
                       <input 
                         required 
                         type="email" 
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        placeholder="EMAIL@PROTOCOL.COM"
-                        className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:outline-none focus:border-primary/50 transition-all font-display text-[11px] tracking-widest uppercase text-white shadow-2xl"
+                        placeholder="you@example.com"
+                        className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:outline-none focus:border-primary/50 transition-all font-display text-sm text-white shadow-2xl"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2 group/field">
-                    <label className="text-[10px] tracking-[0.4em] font-black text-muted-foreground uppercase transition-colors group-focus-within/field:text-primary">Subject Protocol</label>
+                    <label className="text-[10px] tracking-[0.4em] font-black text-muted-foreground uppercase transition-colors group-focus-within/field:text-primary">Subject</label>
                     <input 
                       required 
                       type="text" 
                       name="subject"
                       value={formData.subject}
                       onChange={handleChange}
-                      placeholder="COLLABORATION / RECRUITMENT / QUERY"
-                      className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:outline-none focus:border-primary/50 transition-all font-display text-[11px] tracking-widest uppercase text-white shadow-2xl"
+                      placeholder="What's this about?"
+                      className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:outline-none focus:border-primary/50 transition-all font-display text-sm text-white shadow-2xl"
                     />
                   </div>
 
                   <div className="space-y-2 group/field">
-                    <label className="text-[10px] tracking-[0.4em] font-black text-muted-foreground uppercase transition-colors group-focus-within/field:text-primary">Payload (Message)</label>
+                    <label className="text-[10px] tracking-[0.4em] font-black text-muted-foreground uppercase transition-colors group-focus-within/field:text-primary">Message</label>
                     <textarea 
                       required 
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
                       rows={5}
-                      placeholder="ENTER DETAILED SPECIFICATIONS..."
-                      className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:outline-none focus:border-primary/50 transition-all font-display text-[11px] tracking-widest uppercase text-white shadow-2xl resize-none"
+                      placeholder="Tell me about your project..."
+                      className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:outline-none focus:border-primary/50 transition-all font-display text-sm text-white shadow-2xl resize-none"
                     ></textarea>
                   </div>
 
@@ -203,17 +237,11 @@ const ContactSection: React.FC = () => {
                     className="neon-button w-full py-6 flex items-center justify-center gap-4 group relative overflow-hidden disabled:opacity-50"
                   >
                     <span className="font-display tracking-[0.5em] uppercase text-xs relative z-10 group-hover:text-black transition-colors font-black">
-                      {isSubmitting ? "UPLOADING..." : isSuccess ? "TRANSMITTED" : "TRANSMIT MESSAGE"}
+                      {isSubmitting ? "Sending..." : isSuccess ? "Sent!" : "Send Message"}
                     </span>
                     {isSuccess ? <CheckCircle2 className="w-6 h-6 relative z-10" /> : <Send className="w-6 h-6 relative z-10 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />}
                   </button>
                </form>
-
-               {/* Recruiter Friendly Tag */}
-               <div className="mt-8 flex items-center justify-center gap-2 opacity-30">
-                  <Globe className="w-3 h-3" />
-                  <span className="text-[8px] tracking-widest uppercase font-mono">End-to-End Encrypted Recruitment Protocol</span>
-               </div>
             </div>
           </motion.div>
         </div>
