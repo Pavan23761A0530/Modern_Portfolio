@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Award, ExternalLink, ShieldCheck, Zap, Globe, Cpu, Cloud, Database, Layout, Eye, ChevronLeft, ChevronRight, Binary, Server, Terminal, Monitor, Code } from 'lucide-react';
+import { ExternalLink, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
 
 interface Certification {
@@ -8,7 +8,6 @@ interface Certification {
   issuer: string;
   type: string;
   date: string;
-  icon: React.ElementType;
   description: string;
   credentials: string[];
   image: string;
@@ -20,7 +19,6 @@ const certifications: Certification[] = [
     issuer: "Amazon Web Services",
     type: "Cloud Infrastructure",
     date: "2024",
-    icon: Cloud,
     description: "Architecting scalable cloud ecosystems, serverless protocols, and security automation.",
     credentials: ["https://drive.google.com/file/d/1d7hrOQxt66i79f0GbQX3NFP881K6BtfR/view?usp=sharing"],
     image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800"
@@ -30,7 +28,6 @@ const certifications: Certification[] = [
     issuer: "IIT Kharagpur",
     type: "Artificial Intelligence",
     date: "2024",
-    icon: Cpu,
     description: "Deep learning research and neural network implementation during high-intensity internship.",
     credentials: [
       "https://drive.google.com/file/d/1LC0yxr8pj2Hvvapi7ZX3YcW5jEEhu2OE/view?usp=drive_link",
@@ -43,7 +40,6 @@ const certifications: Certification[] = [
     issuer: "Salesforce Academy",
     type: "CRM & Apex",
     date: "2024",
-    icon: Server,
     description: "Enterprise application development using Apex, Lightning components, and cloud security.",
     credentials: ["https://drive.google.com/file/d/1-CzWy2lqSq2-Wc9LqXxTlD6HRHNSh_pn/view?usp=sharing"],
     image: "https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&q=80&w=800"
@@ -53,17 +49,15 @@ const certifications: Certification[] = [
     issuer: "Microsoft / NPTEL",
     type: "Data Analysis",
     date: "2024",
-    icon: Database,
     description: "Complex data transformation (DAX) and advanced visualization for business intelligence.",
     credentials: ["https://drive.google.com/file/d/1o7IF1MsqNfUTETzjYhpbMzkzZvf9gqTK/view?usp=drive_link"],
-    image: "https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80&w=800"
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800"
   },
   {
     title: "Cyber Resilience",
     issuer: "Introduction to Cybersecurity",
     type: "Security Protocol",
     date: "2023",
-    icon: ShieldCheck,
     description: "Defensive protocol implementation, network security, and threat vector analysis.",
     credentials: ["https://drive.google.com/file/d/1u4mGx6v7_OKdiGGnEtOBZxAlDS19UwBe/view?usp=sharing"],
     image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800"
@@ -73,7 +67,6 @@ const certifications: Certification[] = [
     issuer: "NPTEL",
     type: "Logic & Scripting",
     date: "2023",
-    icon: Terminal,
     description: "Advanced computational logic, algorithmic complexity analysis, and high-performance scripting.",
     credentials: ["https://drive.google.com/file/d/1vIAemAIbSAIfTErY4dHzxo6ccvzlGm3w/view?usp=drive_link"],
     image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800"
@@ -83,7 +76,6 @@ const certifications: Certification[] = [
     issuer: "Coursera",
     type: "Data Structures",
     date: "2023",
-    icon: Code,
     description: "Mastering complex data structures, algorithmic paradigms, and Java-based optimization.",
     credentials: ["https://drive.google.com/file/d/1OBGntMsavy2PHQGSXxGi5v9XEGt6pQKX/view?usp=sharing"],
     image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
@@ -93,7 +85,6 @@ const certifications: Certification[] = [
     issuer: "Cisco Networking Academy",
     type: "Cybersecurity",
     date: "2023",
-    icon: ShieldCheck,
     description: "Enterprise-grade threat protection, secure infrastructure, and Cisco security protocols.",
     credentials: ["https://drive.google.com/file/d/1VupKl-8JOzQoq-BsMOlMItpZnvWROdYC/view?usp=sharing"],
     image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800"
@@ -103,7 +94,6 @@ const certifications: Certification[] = [
     issuer: "ServiceNow Academy",
     type: "IT Service Management",
     date: "2023",
-    icon: Binary,
     description: "Building automated workflows, IT service orchestration, and ServiceNow platform core.",
     credentials: ["https://drive.google.com/file/d/1UxRmplTPDGhL1TlHpPTln6QSV2uMZmNV/view?usp=sharing"],
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
@@ -113,7 +103,6 @@ const certifications: Certification[] = [
     issuer: "Professional Academy",
     type: "Full Stack Development",
     date: "2023",
-    icon: Monitor,
     description: "End-to-end web architecture, distributed systems integration, and modern frontend logic.",
     credentials: ["https://drive.google.com/file/d/11bUGTwBGDlJ-xaZSrSfZTZDyUMgqvFga/view?usp=sharing"],
     image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800"
@@ -178,7 +167,6 @@ const CertificationsSection: React.FC = () => {
 
   return (
     <section id="certifications" className="section-padding relative overflow-hidden bg-background">
-      {/* Background Gradients */}
       <div className="absolute top-1/2 -left-1/4 w-[600px] h-[600px] bg-primary/5 blur-[200px] rounded-full pointer-events-none animate-pulse"></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -189,9 +177,9 @@ const CertificationsSection: React.FC = () => {
           className="text-center mb-24"
         >
           <h3 className="text-primary font-display tracking-[0.5em] text-[10px] mb-4 uppercase">Credentials</h3>
-          <h2 className="text-4xl md:text-7xl font-display font-bold leading-tight tracking-tighter">Elite <span className="gradient-text-purple-cyan">Certifications</span></h2>
+          <h2 className="text-4xl md:text-7xl font-display font-bold leading-tight tracking-tighter">Elite <span className="gradient-text-cyan-blue">Certifications</span></h2>
           <p className="text-muted-foreground max-w-xl mx-auto font-light mt-6 font-display text-[10px] tracking-widest">
-             Verified certifications from top industry organizations
+            Certifications from top industry organizations
           </p>
         </motion.div>
 
@@ -199,69 +187,55 @@ const CertificationsSection: React.FC = () => {
           {certifications.map((cert, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, scale: 0.9, y: 30 }}
-              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
               className="h-full"
             >
-              <Tilt tiltMaxAngleX={8} tiltMaxAngleY={8} perspective={2000} className="h-full">
-                <div className="glass-card p-0 h-full flex flex-col group border-white/5 hover:border-primary/40 transition-all duration-700 bg-black/40 relative overflow-hidden">
+              <Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} perspective={2000} className="h-full">
+                <div className="glass-card rounded-[20px] h-full flex flex-col group border-white/10 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(34,211,238,0.15)] transition-all duration-700 bg-black/30 backdrop-blur-xl overflow-hidden relative">
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary"></div>
                   
-                  {/* Image Header */}
-                  <div className="relative h-48 overflow-hidden">
+                  <div className="relative h-[220px] overflow-hidden rounded-t-[20px]">
                     <img 
                       src={cert.image} 
                       alt={cert.title}
-                      className="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000 group-hover:scale-110"
+                      className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105"
+                      loading="lazy"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
-                    
-                    {/* Icon Overlay */}
-                    <div className="absolute bottom-6 left-6 z-10">
-                      <div className="w-16 h-16 rounded-xl bg-primary/20 backdrop-blur-md border border-primary/40 flex items-center justify-center shadow-xl">
-                        <cert.icon className="h-8 w-8 text-primary" />
-                      </div>
-                    </div>
-
-                    <div className="absolute top-6 right-6">
-                       <div className="px-3 py-1 rounded-full bg-primary/20 backdrop-blur-md border border-primary/40 flex items-center gap-2">
-                          <ShieldCheck className="w-2.5 h-2.5 text-primary" />
-                          <span className="text-[8px] tracking-widest uppercase text-primary font-bold">Verified</span>
-                       </div>
-                    </div>
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-500"></div>
                   </div>
 
-                  <div className="p-8 flex flex-col flex-grow relative">
-                    {/* Subtle Background Glow */}
-                    <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-primary/5 blur-[80px] group-hover:bg-primary/20 transition-all duration-700"></div>
-                    
-                    <div className="relative z-10 space-y-4">
-                      <h4 className="text-[9px] tracking-[0.4em] uppercase text-primary/60 font-bold group-hover:text-primary transition-colors">{cert.type}</h4>
-                      <h3 className="text-xl font-display font-bold text-white group-hover:text-primary transition-all leading-tight">
-                        {cert.title}
-                      </h3>
+                  <div className="p-6 flex flex-col flex-grow">
+                    <div className="mb-4">
+                      <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-bold">{cert.type}</span>
                     </div>
                     
-                    <p className="text-[13px] text-muted-foreground font-light leading-relaxed my-6 flex-grow relative z-10 line-clamp-3">
+                    <h3 className="text-xl font-display font-bold text-white group-hover:text-primary transition-colors leading-tight mb-4">
+                      {cert.title}
+                    </h3>
+                    
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-grow">
                       {cert.description}
                     </p>
 
-                    <div className="flex items-center justify-between pt-6 border-t border-white/5 relative z-10 mt-auto">
-                      <div className="flex flex-col">
-                         <span className="text-[7px] tracking-[0.2em] font-bold text-muted-foreground uppercase mb-1">Issuer:</span>
-                         <span className="text-[10px] font-display font-bold text-foreground">{cert.issuer}</span>
-                      </div>
-                      <button 
-                        onClick={() => openGallery(cert.credentials)}
-                        className="w-12 h-12 rounded-xl border border-white/10 flex items-center justify-center bg-white/5 hover:bg-primary hover:text-black hover:border-primary transition-all shadow-xl group/btn"
-                      >
-                        <Eye className="w-4.5 h-4.5 group-hover/btn:scale-110 transition-transform" />
-                      </button>
+                    <div className="flex items-center gap-2 mb-6">
+                      <span className="text-xs font-medium text-white">{cert.issuer}</span>
                     </div>
 
-                    {/* Aesthetic Shine Effect */}
-                    <div className="absolute top-0 -left-[100%] w-[120%] h-full bg-gradient-to-r from-transparent via-white/5 to-transparent skew-x-[25deg] group-hover:left-[100%] transition-all duration-1000 ease-in-out pointer-events-none"></div>
+                    <motion.button
+                      whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(34,211,238,0.4)' }}
+                      whileTap={{ scale: 0.97 }}
+                      onClick={() => openGallery(cert.credentials)}
+                      className="w-full px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold text-sm transition-all flex items-center justify-between gap-3 group"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Eye className="w-5 h-5" />
+                        View Certificate
+                      </div>
+                      <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                    </motion.button>
                   </div>
                 </div>
               </Tilt>

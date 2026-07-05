@@ -26,6 +26,7 @@ const navItems: NavItem[] = [
   { name: 'About', href: '#about', icon: User },
   { name: 'Skills', href: '#skills', icon: Zap },
   { name: 'Projects', href: '#projects', icon: Layout },
+  { name: 'Experience', href: '#experience', icon: Briefcase },
   { name: 'Achievements', href: '#achievements', icon: Trophy },
   { name: 'Certifications', href: '#certifications', icon: Award },
   { name: 'Contact', href: '#contact', icon: Mail },
@@ -116,7 +117,7 @@ const Navigation: React.FC = () => {
           {/* Utility Buttons */}
           <div className="hidden lg:flex items-center gap-3">
              <motion.a
-                href="https://drive.google.com/file/d/1nd5uTIW5BTanaLyojMsVWlTzK5vFXLL9/view?usp=drive_link"
+                href="https://drive.google.com/file/d/17sKy8sG4mBI1Dlb3tRxQFSKIMpBlIRZg/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.02 }}
@@ -181,7 +182,7 @@ const Navigation: React.FC = () => {
                <div className="h-[1px] bg-white/10 my-2"></div>
                <div className="flex flex-col gap-3">
                  <motion.a 
-                   href="https://drive.google.com/file/d/1nd5uTIW5BTanaLyojMsVWlTzK5vFXLL9/view?usp=drive_link"
+                   href="https://drive.google.com/file/d/17sKy8sG4mBI1Dlb3tRxQFSKIMpBlIRZg/view?usp=sharing"
                    target="_blank"
                    rel="noopener noreferrer"
                    whileHover={{ scale: 1.02 }}

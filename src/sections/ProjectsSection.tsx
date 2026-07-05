@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ExternalLink, Github, ArrowUpRight, Cpu, Globe, Database, Shield, Zap, Search, Maximize2, Activity, Eye, Home, Star, X } from 'lucide-react';
+import { ExternalLink, Github, Cpu, Globe, Zap, Search, Star, X } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
 
 import carPriceImg from '@/assets/car-price-project.jpg';
@@ -44,7 +44,7 @@ const projects: Project[] = [
     image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdL6TCbFC7WMyh-ce5juAP0FKrDc62cxyjIA&s",
     githubUrl: "https://github.com/Pavan23761A0530/Home-Bell",
     liveUrl: "https://home-bell-1.onrender.com/",
-    icon: Home,
+    icon: Globe,
     featured: true
   },
   {
@@ -59,7 +59,7 @@ const projects: Project[] = [
     image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?auto=format&fit=crop&q=80&w=800",
     githubUrl: "https://github.com/Pavan23761A0530/Smart-Ai-Spectacles",
     liveUrl: "https://smart-ai-spectacles.onrender.com",
-    icon: Eye
+    icon: Zap
   },
   {
     id: "car-price",
@@ -73,7 +73,7 @@ const projects: Project[] = [
     image: carPriceImg,
     githubUrl: "https://github.com/Pavan23761A0530/CarPricePrediction/tree/main",
     liveUrl: "https://carpriceprediction-let2.onrender.com",
-    icon: Activity
+    icon: Cpu
   },
   {
     id: "eyewear",
@@ -87,7 +87,7 @@ const projects: Project[] = [
     image: eyewearImg,
     githubUrl: "https://github.com/Pavan23761A0530",
     liveUrl: "https://drive.google.com/file/d/1p7pbujiv0P39viQE4V2NAo7AqoDccKfu/view?usp=sharing",
-    icon: Eye
+    icon: Globe
   },
   {
     id: "house-tax",
@@ -101,36 +101,81 @@ const projects: Project[] = [
     tech: ["HTML", "CSS", "JavaScript", "Java", "JSP", "JDBC", "MySQL"],
     image: homeBellImg,
     githubUrl: "https://github.com/Pavan23761A0530/navigator/tree/main",
-    liveUrl: "https://navigator-1-op5s.onrender.com",
-    icon: Database
+    liveUrl: "https://navigator-1.op5s.onrender.com",
+    icon: Globe
   }
 ];
 
 const ProjectsSection: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState('all');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const lastFocusedElementRef = useRef<HTMLElement | null>(null);
 
-  const filteredProjects = projects.filter(p => activeCategory === 'all' || p.category === activeCategory);
+  const filteredProjects = useMemo(() => {
+    return projects.filter(p => activeCategory === 'all' || p.category === activeCategory);
+  }, [activeCategory]);
 
   const closeModal = useCallback(() => {
     setSelectedProject(null);
+    if (lastFocusedElementRef.current) {
+      lastFocusedElementRef.current.focus();
+    }
+  }, []);
+
+  const openModal = useCallback((project: Project) => {
+    lastFocusedElementRef.current = document.activeElement as HTMLElement;
+    setSelectedProject(project);
   }, []);
 
   useEffect(() => {
+    if (!selectedProject) return;
+
+    const originalStyle = window.getComputedStyle(document.body).overflow;
+    document.body.style.overflow = 'hidden';
+
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && selectedProject) {
+      if (e.key === 'Escape') {
         closeModal();
       }
     };
 
-    if (selectedProject) {
-      document.addEventListener('keydown', handleKeyDown);
-    }
+    const handleMouseDownOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target.classList.contains('modal-overlay')) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('mousedown', handleMouseDownOutside);
 
     return () => {
+      document.body.style.overflow = originalStyle;
       document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('mousedown', handleMouseDownOutside);
     };
   }, [selectedProject, closeModal]);
+
+  const renderTechTags = (tech: string[]) => {
+    const MAX_VISIBLE = 5;
+    if (tech.length <= MAX_VISIBLE) {
+      return tech.map((t, i) => (
+        <span key={i} className="text-xs px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-muted-foreground font-medium whitespace-nowrap flex items-center justify-center h-7">
+          {t}
+        </span>
+      ));
+    }
+    return [
+      ...tech.slice(0, MAX_VISIBLE).map((t, i) => (
+        <span key={i} className="text-xs px-3 py-1.5 rounded-full border border-white/10 bg-white/5 text-muted-foreground font-medium whitespace-nowrap flex items-center justify-center h-7">
+          {t}
+        </span>
+      )),
+      <span key="more" className="text-xs px-3 py-1.5 rounded-full border border-primary/30 bg-primary/10 text-primary font-semibold whitespace-nowrap flex items-center justify-center h-7">
+        +{tech.length - MAX_VISIBLE} More
+      </span>
+    ];
+  };
 
   return (
     <section id="projects" className="section-padding relative overflow-hidden">
@@ -138,7 +183,7 @@ const ProjectsSection: React.FC = () => {
       <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-secondary/10 blur-[180px] rounded-full pointer-events-none"></div>
       <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-accent/10 blur-[150px] rounded-full pointer-events-none"></div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
            initial={{ opacity: 0, y: 30 }}
            whileInView={{ opacity: 1, y: 0 }}
@@ -150,27 +195,26 @@ const ProjectsSection: React.FC = () => {
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold leading-tight tracking-tighter">Featured <span className="gradient-text-cyan-blue">Projects</span></h2>
           </div>
           
-          <div className="flex w-full lg:w-auto bg-white/5 border border-white/10 rounded-xl p-1.5 backdrop-blur-md">
+          <div className="flex w-full lg:w-auto overflow-x-auto no-scrollbar bg-white/5 border border-white/10 rounded-xl p-1.5 backdrop-blur-md gap-1">
              {categories.map((cat) => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`flex-1 lg:flex-none px-4 md:px-6 py-3 rounded-lg text-sm font-medium transition-all duration-500 flex items-center justify-center gap-2 ${
+                  className={`flex-shrink-0 px-4 md:px-6 py-3 rounded-lg text-sm font-medium transition-all duration-500 flex items-center justify-center gap-2 ${
                     activeCategory === cat.id 
                       ? 'bg-gradient-to-r from-primary to-secondary text-black shadow-lg animate-gradient-xy' 
                       : 'text-muted-foreground hover:text-white hover:bg-white/5'
                   }`}
                 >
                   <cat.icon className="w-4 h-4" />
-                  <span className="hidden sm:block">{cat.name}</span>
-                  <span className="sm:hidden">{cat.id}</span>
+                  <span>{cat.name}</span>
                 </button>
              ))}
           </div>
         </motion.div>
 
         {/* Project Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <AnimatePresence mode="popLayout">
             {filteredProjects.map((project, index) => (
               <motion.div
@@ -180,34 +224,27 @@ const ProjectsSection: React.FC = () => {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 40 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
+                className="h-[550px]"
               >
                 <Tilt
-                  tiltMaxAngleX={4}
-                  tiltMaxAngleY={4}
+                  tiltMaxAngleX={3}
+                  tiltMaxAngleY={3}
                   perspective={2500}
                   className="h-full"
                 >
                   <div 
-                    className="glass-card flex flex-col h-full group border-white/10 hover:border-primary/50 transition-all duration-700 bg-black/30 overflow-hidden cursor-pointer relative"
-                    onClick={() => setSelectedProject(project)}
+                    className="glass-card flex flex-col h-full group border-white/10 hover:border-primary/50 hover:shadow-[0_0_30px_rgba(34,211,238,0.15)] transition-all duration-700 bg-black/30 overflow-hidden cursor-pointer relative rounded-2xl"
+                    onClick={() => openModal(project)}
                   >
-
                     {/* Media Layer */}
-                    <div className="relative aspect-video overflow-hidden rounded-t-xl">
+                    <div className="relative h-[220px] overflow-hidden rounded-t-2xl">
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105"
                         loading="lazy"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/50 to-transparent"></div>
-                      
-                      {/* Project Icon */}
-                      <div className="absolute top-4 left-4 z-10">
-                         <div className="w-12 h-12 rounded-xl bg-black/60 backdrop-blur-2xl border border-white/15 flex items-center justify-center text-primary group-hover:bg-gradient-to-r group-hover:from-primary group-hover:to-secondary group-hover:text-black transition-all duration-500 shadow-lg">
-                            <project.icon className="w-5 h-5" />
-                         </div>
-                      </div>
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-500"></div>
 
                       {/* Featured Badge */}
                       {project.featured && (
@@ -219,76 +256,46 @@ const ProjectsSection: React.FC = () => {
                     </div>
 
                     {/* Content Layer */}
-                    <div className="p-6 md:p-7 flex flex-col flex-grow relative z-10">
-                      <div className="flex justify-between items-start mb-4">
-                        <h3 className="text-lg md:text-xl lg:text-2xl font-display font-bold leading-tight group-hover:text-primary transition-colors">
+                    <div className="p-6 flex flex-col flex-grow relative z-10 h-[calc(550px-220px)]">
+                      <div className="mb-4">
+                        <h3 className="text-xl font-display font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">
                           {project.title}
                         </h3>
-                        <div className="flex gap-2">
-                           <ArrowUpRight className="w-5 h-5 text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
-                        </div>
                       </div>
                       
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-3">
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-3 flex-shrink-0">
                         {project.description}
                       </p>
 
-                      {project.benefits && (
-                        <div className="flex flex-wrap gap-2 mb-6">
-                           {project.benefits.map((benefit: string, i: number) => (
-                             <span key={i} className="text-xs px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary font-medium">
-                                {benefit}
-                             </span>
-                           ))}
-                        </div>
-                      )}
+                      <div className="flex flex-wrap gap-2 mb-6 flex-grow overflow-hidden">
+                        {renderTechTags(project.tech)}
+                      </div>
 
-                      <div className="mt-auto space-y-5">
-                        <div className="flex flex-wrap gap-2">
-                          {project.tech.map((t, i) => (
-                            <span key={i} className="text-xs px-2.5 py-1.5 rounded-xl border border-white/10 bg-white/5 text-muted-foreground font-medium group-hover:border-primary/30 group-hover:text-primary transition-all duration-300">
-                              {t}
-                            </span>
-                          ))}
-                        </div>
-
-                        <div className="flex gap-3">
-                          <motion.a
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.97 }}
-                            className="flex-1 px-4 py-3 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-secondary text-black shadow-lg"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                             Live Demo
-                             <ExternalLink className="w-3.5 h-3.5" />
-                          </motion.a>
-                          <motion.a
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.97 }}
-                            className="flex-1 px-4 py-3 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-white hover:border-primary/40 transition-all duration-300"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                             Source
-                             <Github className="w-3.5 h-3.5" />
-                          </motion.a>
-                        </div>
-
-                        <div className="flex items-center justify-between pt-4 border-t border-white/5">
-                           <div className="flex items-center gap-3">
-                              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse shadow-lg"></div>
-                              <span className="text-xs font-semibold text-emerald-400">Status: Online</span>
-                           </div>
-                           <button className="text-xs font-semibold flex items-center gap-2 group/btn text-muted-foreground group-hover:text-primary transition-colors">
-                              View Details
-                              <Maximize2 className="w-3.5 h-3.5 group-hover/btn:scale-110 transition-transform" />
-                           </button>
-                        </div>
+                      <div className="flex gap-3 mt-auto flex-shrink-0">
+                        <motion.a
+                          href={project.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.97 }}
+                          className="flex-1 px-4 py-3 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-secondary text-black shadow-lg"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                           Live Demo
+                           <ExternalLink className="w-3.5 h-3.5" />
+                        </motion.a>
+                        <motion.a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.97 }}
+                          className="flex-1 px-4 py-3 rounded-lg font-semibold text-sm flex items-center justify-center gap-2 bg-white/5 border border-white/10 text-white hover:border-primary/40 transition-all duration-300"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                           Source
+                           <Github className="w-3.5 h-3.5" />
+                        </motion.a>
                       </div>
                     </div>
                   </div>
@@ -297,7 +304,6 @@ const ProjectsSection: React.FC = () => {
             ))}
           </AnimatePresence>
         </div>
-
       </div>
 
       {/* Project Expandable Modal */}
@@ -307,25 +313,26 @@ const ProjectsSection: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-3xl p-4 sm:p-6 md:p-10 lg:p-20 flex items-center justify-center"
-            onClick={closeModal}
+            transition={{ duration: 0.25 }}
+            className="modal-overlay fixed inset-0 z-[200] bg-black/90 backdrop-blur-3xl p-4 sm:p-6 md:p-10 lg:p-20 flex items-center justify-center"
           >
             {/* Close Button */}
             <button
               onClick={closeModal}
               className="absolute top-4 right-4 sm:top-8 sm:right-8 w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-white/10 hover:border-primary/40 hover:text-primary transition-all duration-300 z-10"
+              aria-label="Close modal"
             >
               <X className="w-6 h-6" />
             </button>
 
             <motion.div
-              initial={{ scale: 0.9, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.9, y: 20 }}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ duration: 0.25 }}
               onClick={(e) => e.stopPropagation()}
               className="glass-card w-full max-w-6xl max-h-[90vh] overflow-auto relative flex flex-col 2xl:flex-row border-white/10 rounded-2xl"
             >
-
               {/* Modal Image Section */}
               <div className="2xl:w-1/2 relative bg-black/40 rounded-t-2xl 2xl:rounded-l-2xl 2xl:rounded-tr-none overflow-hidden aspect-video 2xl:aspect-auto">
                  <img src={selectedProject.image} className="w-full h-full object-cover" alt={selectedProject.title} loading="lazy" />

@@ -1,7 +1,6 @@
 import React from 'react';
 import Navigation from '@/components/Navigation';
 import AIAssistant from '@/components/AIAssistant';
-import StickyResume from '@/components/StickyResume';
 import LoadingScreen from '@/components/LoadingScreen';
 import PremiumBackground from '@/components/PremiumBackground';
 import HeroSection from '@/sections/HeroSection';
@@ -29,7 +28,6 @@ const Index = () => {
       
       <Navigation />
       <AIAssistant />
-      <StickyResume />
       
       <main className="relative z-10 overflow-hidden">
         <HeroSection />
@@ -39,9 +37,9 @@ const Index = () => {
           <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-background to-transparent pointer-events-none"></div>
           
           <AboutSection />
-          <ExperienceSection />
           <SkillsSection />
           <ProjectsSection />
+          <ExperienceSection />
           <AchievementsSection />
           <CertificationsSection />
           <ContactSection />

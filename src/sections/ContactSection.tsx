@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Send, CheckCircle2, Download, Terminal, Activity, Rocket, FileText } from 'lucide-react';
+import { Github, Linkedin, Mail, Send, CheckCircle2, Phone } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
 import { toast } from 'sonner';
 
@@ -82,83 +82,78 @@ const ContactSection: React.FC = () => {
   };
 
   const socialLinks = [
-    { icon: <Github className="w-6 h-6" />, href: "https://github.com/Pavan23761A0530", label: "GitHub", name: "GitHub" },
-    { icon: <Linkedin className="w-6 h-6" />, href: "https://www.linkedin.com/feed/", label: "LinkedIn", name: "LinkedIn" },
-    { icon: <Mail className="w-6 h-6" />, href: "mailto:kommojupavankumarganesh@gmail.com", label: "Email", name: "Email" }
+    { icon: Github, href: "https://github.com/Pavan23761A0530", label: "GitHub" },
+    { icon: Linkedin, href: "https://www.linkedin.com/feed/", label: "LinkedIn" },
+    { icon: Mail, href: "mailto:kommojupavankumarganesh@gmail.com", label: "Email" },
+    { icon: Phone, href: "tel:+919398597140", label: "Phone" }
   ];
 
   return (
     <section id="contact" className="section-padding relative overflow-hidden bg-background">
-      {/* Background Particles & Effects */}
       <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/10 blur-[200px] rounded-full"></div>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
+        <div className="grid lg:grid-cols-2 gap-16 items-start">
           
           {/* Left: Branding & Message */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-primary/20 bg-primary/5 backdrop-blur-md mb-8">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-[10px] tracking-[0.4em] font-black text-primary uppercase">Available for Work</span>
+            <div className="mb-8">
+              <div className="inline-flex items-center gap-3 px-6 py-3 rounded-[20px] border border-primary/30 bg-black/30 backdrop-blur-xl glass-card">
+                <div className="relative">
+                  <div className="w-3 h-3 rounded-full bg-green-500 absolute animate-ping"></div>
+                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                </div>
+                <span className="text-[10px] tracking-[0.4em] font-bold text-primary uppercase">Open for Opportunities</span>
+              </div>
             </div>
             
-            <h2 className="text-5xl md:text-8xl font-display font-black leading-[0.9] mb-10 tracking-tighter uppercase">
-              Let's Build <br />
-              <span className="gradient-text glow-text">Something Great</span>
+            <h2 className="text-4xl md:text-6xl font-display font-bold leading-tight mb-8 tracking-tighter">
+              Let's Work <br />
+              <span className="gradient-text-cyan-blue">Together</span>
             </h2>
 
-            <p className="text-xl text-muted-foreground font-light leading-relaxed mb-12 max-w-lg">
+            <p className="text-lg text-muted-foreground font-light leading-relaxed mb-12 max-w-lg">
               I'm currently open to new opportunities. Whether you have a project in mind or just want to connect, feel free to reach out.
             </p>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-              {socialLinks.map((social, i) => (
-                <Tilt key={i} tiltMaxAngleX={15} tiltMaxAngleY={15}>
-                  <a
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="glass-card p-6 flex flex-col items-center gap-4 border-white/5 hover:border-primary/50 transition-all group"
-                  >
-                    <div className="text-muted-foreground group-hover:text-primary group-hover:scale-110 transition-all duration-500">
-                      {social.icon}
-                    </div>
-                    <div className="text-center">
-                       <p className="text-[8px] tracking-widest text-muted-foreground uppercase mb-1">{social.label}</p>
-                       <p className="text-[11px] font-display font-black uppercase text-white">{social.name}</p>
-                    </div>
-                  </a>
-                </Tilt>
-              ))}
+            <div className="grid grid-cols-2 gap-4 mb-12">
+              {socialLinks.map((social, i) => {
+                const Icon = social.icon;
+                return (
+                  <Tilt key={i} tiltMaxAngleX={3} tiltMaxAngleY={3} perspective={2000}>
+                    <a
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="glass-card rounded-[20px] p-6 flex flex-col items-center gap-4 border-white/10 hover:border-primary/50 hover:shadow-[0_0_40px_rgba(34,211,238,0.15)] transition-all duration-500 bg-black/30 backdrop-blur-xl group"
+                    >
+                      <div className="w-12 h-12 rounded-[14px] bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center text-primary border border-primary/30 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(34,211,238,0.3)] transition-all duration-300">
+                        <Icon className="w-6 h-6" />
+                      </div>
+                      <p className="text-sm font-medium text-white group-hover:text-primary transition-colors">{social.label}</p>
+                    </a>
+                  </Tilt>
+                );
+              })}
             </div>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-6">
-               <div className="flex items-center gap-6 p-6 rounded-3xl bg-white/5 border border-white/10 flex-grow">
-                  <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
-                     <Activity className="w-7 h-7" />
-                  </div>
-                  <div>
-                     <p className="text-[10px] tracking-widest text-primary font-black uppercase mb-1">Current Status</p>
-                     <p className="text-lg font-display font-bold text-white uppercase tracking-tight">Open for Opportunities</p>
-                  </div>
-               </div>
-
-               <motion.a
-                 href="https://drive.google.com/file/d/1nd5uTIW5BTanaLyojMsVWlTzK5vFXLL9/view?usp=drive_link"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 whileHover={{ y: -5 }}
-                 className="glass-card p-6 flex flex-col items-center justify-center gap-2 border-white/10 hover:border-primary/50 transition-all group"
-               >
-                  <FileText className="w-6 h-6 text-primary group-hover:scale-110 transition-transform" />
-                  <span className="text-[9px] font-display font-black tracking-widest uppercase">Resume</span>
-               </motion.a>
+            <div className="glass-card rounded-[20px] p-6 border-white/10 bg-black/30 backdrop-blur-xl">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-[14px] bg-gradient-to-br from-green-500/20 to-green-400/20 flex items-center justify-center text-green-500 border border-green-500/30">
+                  <div className="w-4 h-4 rounded-full bg-green-500 animate-pulse"></div>
+                </div>
+                <div>
+                  <p className="text-[10px] tracking-[0.3em] text-green-500 font-bold uppercase mb-1">Current Status</p>
+                  <p className="text-lg font-bold text-white">Open for Opportunities</p>
+                </div>
+              </div>
             </div>
           </motion.div>
 
@@ -167,21 +162,17 @@ const ContactSection: React.FC = () => {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
           >
-            <div className="glass-card p-10 md:p-14 border-white/10 relative overflow-hidden group">
-               <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                  <Rocket className="w-[150px] h-[150px] text-primary rotate-45" />
-               </div>
+            <div className="glass-card rounded-[20px] p-8 md:p-10 border-white/10 bg-black/30 backdrop-blur-xl relative overflow-hidden">
+               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary"></div>
                
-               <h3 className="text-2xl font-display font-black text-white mb-10 flex items-center gap-4 uppercase tracking-tighter">
-                  <Terminal className="w-6 h-6 text-primary" />
-                  Get In Touch
-               </h3>
+               <h3 className="text-2xl font-display font-bold text-white mb-8">Get In Touch</h3>
 
-               <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
-                  <div className="grid md:grid-cols-2 gap-8">
+               <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+                  <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2 group/field">
-                      <label className="text-[10px] tracking-[0.4em] font-black text-muted-foreground uppercase transition-colors group-focus-within/field:text-primary">Name</label>
+                      <label className="text-xs tracking-[0.2em] text-muted-foreground font-medium transition-colors group-focus-within/field:text-primary">Name</label>
                       <input 
                         required 
                         type="text" 
@@ -189,11 +180,11 @@ const ContactSection: React.FC = () => {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="Your name"
-                        className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:outline-none focus:border-primary/50 transition-all font-display text-sm text-white shadow-2xl"
+                        className="w-full bg-black/40 border border-white/10 rounded-[14px] py-4 px-5 focus:outline-none focus:border-primary/50 focus:shadow-[0_0_30px_rgba(34,211,238,0.2)] transition-all text-white placeholder:text-white/40"
                       />
                     </div>
                     <div className="space-y-2 group/field">
-                      <label className="text-[10px] tracking-[0.4em] font-black text-muted-foreground uppercase transition-colors group-focus-within/field:text-primary">Email</label>
+                      <label className="text-xs tracking-[0.2em] text-muted-foreground font-medium transition-colors group-focus-within/field:text-primary">Email</label>
                       <input 
                         required 
                         type="email" 
@@ -201,13 +192,13 @@ const ContactSection: React.FC = () => {
                         value={formData.email}
                         onChange={handleChange}
                         placeholder="you@example.com"
-                        className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:outline-none focus:border-primary/50 transition-all font-display text-sm text-white shadow-2xl"
+                        className="w-full bg-black/40 border border-white/10 rounded-[14px] py-4 px-5 focus:outline-none focus:border-primary/50 focus:shadow-[0_0_30px_rgba(34,211,238,0.2)] transition-all text-white placeholder:text-white/40"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-2 group/field">
-                    <label className="text-[10px] tracking-[0.4em] font-black text-muted-foreground uppercase transition-colors group-focus-within/field:text-primary">Subject</label>
+                    <label className="text-xs tracking-[0.2em] text-muted-foreground font-medium transition-colors group-focus-within/field:text-primary">Subject</label>
                     <input 
                       required 
                       type="text" 
@@ -215,12 +206,12 @@ const ContactSection: React.FC = () => {
                       value={formData.subject}
                       onChange={handleChange}
                       placeholder="What's this about?"
-                      className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:outline-none focus:border-primary/50 transition-all font-display text-sm text-white shadow-2xl"
+                      className="w-full bg-black/40 border border-white/10 rounded-[14px] py-4 px-5 focus:outline-none focus:border-primary/50 focus:shadow-[0_0_30px_rgba(34,211,238,0.2)] transition-all text-white placeholder:text-white/40"
                     />
                   </div>
 
                   <div className="space-y-2 group/field">
-                    <label className="text-[10px] tracking-[0.4em] font-black text-muted-foreground uppercase transition-colors group-focus-within/field:text-primary">Message</label>
+                    <label className="text-xs tracking-[0.2em] text-muted-foreground font-medium transition-colors group-focus-within/field:text-primary">Message</label>
                     <textarea 
                       required 
                       name="message"
@@ -228,19 +219,25 @@ const ContactSection: React.FC = () => {
                       onChange={handleChange}
                       rows={5}
                       placeholder="Tell me about your project..."
-                      className="w-full bg-black/40 border border-white/10 rounded-xl py-4 px-6 focus:outline-none focus:border-primary/50 transition-all font-display text-sm text-white shadow-2xl resize-none"
+                      className="w-full bg-black/40 border border-white/10 rounded-[14px] py-4 px-5 focus:outline-none focus:border-primary/50 focus:shadow-[0_0_30px_rgba(34,211,238,0.2)] transition-all text-white placeholder:text-white/40 resize-none"
                     ></textarea>
                   </div>
 
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.02, boxShadow: '0 0 40px rgba(34,211,238,0.4)' }}
+                    whileTap={{ scale: 0.98 }}
                     disabled={isSubmitting || isSuccess}
-                    className="neon-button w-full py-6 flex items-center justify-center gap-4 group relative overflow-hidden disabled:opacity-50"
+                    className="w-full py-4 px-6 rounded-[14px] bg-gradient-to-r from-primary to-secondary text-white font-bold text-sm transition-all flex items-center justify-center gap-3 group disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    <span className="font-display tracking-[0.5em] uppercase text-xs relative z-10 group-hover:text-black transition-colors font-black">
+                    <span className="tracking-wide">
                       {isSubmitting ? "Sending..." : isSuccess ? "Sent!" : "Send Message"}
                     </span>
-                    {isSuccess ? <CheckCircle2 className="w-6 h-6 relative z-10" /> : <Send className="w-6 h-6 relative z-10 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />}
-                  </button>
+                    {isSuccess ? (
+                      <CheckCircle2 className="w-5 h-5" />
+                    ) : (
+                      <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    )}
+                  </motion.button>
                </form>
             </div>
           </motion.div>

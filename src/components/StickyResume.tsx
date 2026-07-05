@@ -11,7 +11,7 @@ const StickyResume: React.FC = () => {
       className="fixed left-6 bottom-10 z-[150] hidden md:block"
     >
       <motion.a
-        href="https://drive.google.com/file/d/1nd5uTIW5BTanaLyojMsVWlTzK5vFXLL9/view?usp=drive_link"
+        href="https://drive.google.com/file/d/17sKy8sG4mBI1Dlb3tRxQFSKIMpBlIRZg/view?usp=sharing"
         target="_blank"
         rel="noopener noreferrer"
         whileHover={{ scale: 1.1, x: 10 }}

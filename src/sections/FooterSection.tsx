@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Github, Linkedin, Mail, Cpu, ChevronUp, Star, Globe, ShieldCheck } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronUp, Star, Globe, ShieldCheck } from 'lucide-react';
+import pavanPic from '@/assets/pavanpic.png';
 
 const FooterSection: React.FC = () => {
   const [currentTime, setCurrentTime] = useState(new Date().toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' }));
@@ -47,8 +48,13 @@ const FooterSection: React.FC = () => {
                className="flex items-center gap-4 cursor-pointer"
                onClick={scrollToTop}
             >
-               <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center text-primary border border-primary/40 shadow-[0_0_30px_rgba(0,255,255,0.2)]">
-                  <Cpu className="w-6 h-6" />
+               <div className="w-14 h-14 rounded-full border-2 border-primary shadow-[0_0_30px_rgba(0,255,255,0.2)] overflow-hidden">
+                  <img 
+                    src={pavanPic} 
+                    alt="Pavan Kumar Ganesh" 
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
                </div>
                <div>
                   <h2 className="text-2xl font-display font-black text-white tracking-tighter uppercase leading-none">Pavan Portfolio</h2>
