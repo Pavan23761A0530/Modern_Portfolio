@@ -110,11 +110,11 @@ export const portfolioData = {
     {
       id: "software-dev-intern",
       role: "Software Development Intern",
-      company: "YugantaAI Pvt. Ltd.",
+      company: "IndeWebPros",
       location: "India",
       period: "May 2026 – July 2026",
-      description: "Developed and maintained scalable full-stack web applications using MERN stack. Implemented responsive UI/UX, RESTful APIs, authentication, and database integration. Collaborated with cross-functional teams using agile methodologies.",
-      technologies: ["React.js", "Node.js", "Express", "MongoDB", "JavaScript", "Git", "REST APIs"],
+      description: "Currently working as a Software Development Intern at IndeWebPros. My primary responsibility is software testing, identifying bugs, reporting issues, verifying fixes, and ensuring the application delivers a stable and high-quality user experience.",
+      technologies: ["Software Testing", "Bug Tracking", "Quality Assurance (QA)", "Git", "GitHub", "Jira", "SDLC"],
       credentials: ["https://drive.google.com/file/d/10ZLUNyR8tdfQBBtJF2okuoPdI4zqutvc/view?usp=sharing"]
     },
     {

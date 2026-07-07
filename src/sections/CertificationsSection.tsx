@@ -1,117 +1,71 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
+import useEmblaCarousel from 'embla-carousel-react';
+import { portfolioData } from '@/lib/portfolioData';
 
-interface Certification {
-  title: string;
-  issuer: string;
-  type: string;
-  date: string;
-  description: string;
-  credentials: string[];
-  image: string;
-}
-
-const certifications: Certification[] = [
-  {
-    title: "AWS Cloud Practitioner",
-    issuer: "Amazon Web Services",
-    type: "Cloud Infrastructure",
-    date: "2024",
-    description: "Architecting scalable cloud ecosystems, serverless protocols, and security automation.",
-    credentials: ["https://drive.google.com/file/d/1d7hrOQxt66i79f0GbQX3NFP881K6BtfR/view?usp=sharing"],
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    title: "IIT Kharagpur AI Internship",
-    issuer: "IIT Kharagpur",
-    type: "Artificial Intelligence",
-    date: "2024",
-    description: "Deep learning research and neural network implementation during high-intensity internship.",
-    credentials: [
-      "https://drive.google.com/file/d/1LC0yxr8pj2Hvvapi7ZX3YcW5jEEhu2OE/view?usp=drive_link",
-      "https://drive.google.com/file/d/1OSpK0TjLi6eiIZ3gNHRzIy-yiQXjPkkZ/view?usp=drive_link"
-    ],
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    title: "Salesforce Virtual Internship",
-    issuer: "Salesforce Academy",
-    type: "CRM & Apex",
-    date: "2024",
-    description: "Enterprise application development using Apex, Lightning components, and cloud security.",
-    credentials: ["https://drive.google.com/file/d/1-CzWy2lqSq2-Wc9LqXxTlD6HRHNSh_pn/view?usp=sharing"],
-    image: "https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    title: "Power BI Architect",
-    issuer: "Microsoft / NPTEL",
-    type: "Data Analysis",
-    date: "2024",
-    description: "Complex data transformation (DAX) and advanced visualization for business intelligence.",
-    credentials: ["https://drive.google.com/file/d/1o7IF1MsqNfUTETzjYhpbMzkzZvf9gqTK/view?usp=drive_link"],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    title: "Cyber Resilience",
-    issuer: "Introduction to Cybersecurity",
-    type: "Security Protocol",
-    date: "2023",
-    description: "Defensive protocol implementation, network security, and threat vector analysis.",
-    credentials: ["https://drive.google.com/file/d/1u4mGx6v7_OKdiGGnEtOBZxAlDS19UwBe/view?usp=sharing"],
-    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    title: "Python Engine Core",
-    issuer: "NPTEL",
-    type: "Logic & Scripting",
-    date: "2023",
-    description: "Advanced computational logic, algorithmic complexity analysis, and high-performance scripting.",
-    credentials: ["https://drive.google.com/file/d/1vIAemAIbSAIfTErY4dHzxo6ccvzlGm3w/view?usp=drive_link"],
-    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    title: "DSA with Java and Beyond",
-    issuer: "Coursera",
-    type: "Data Structures",
-    date: "2023",
-    description: "Mastering complex data structures, algorithmic paradigms, and Java-based optimization.",
-    credentials: ["https://drive.google.com/file/d/1OBGntMsavy2PHQGSXxGi5v9XEGt6pQKX/view?usp=sharing"],
-    image: "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    title: "Cisco Virtual Internship",
-    issuer: "Cisco Networking Academy",
-    type: "Cybersecurity",
-    date: "2023",
-    description: "Enterprise-grade threat protection, secure infrastructure, and Cisco security protocols.",
-    credentials: ["https://drive.google.com/file/d/1VupKl-8JOzQoq-BsMOlMItpZnvWROdYC/view?usp=sharing"],
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    title: "ServiceNow Virtual Internship",
-    issuer: "ServiceNow Academy",
-    type: "IT Service Management",
-    date: "2023",
-    description: "Building automated workflows, IT service orchestration, and ServiceNow platform core.",
-    credentials: ["https://drive.google.com/file/d/1UxRmplTPDGhL1TlHpPTln6QSV2uMZmNV/view?usp=sharing"],
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
-  },
-  {
-    title: "FSD Course Completion",
-    issuer: "Professional Academy",
-    type: "Full Stack Development",
-    date: "2023",
-    description: "End-to-end web architecture, distributed systems integration, and modern frontend logic.",
-    credentials: ["https://drive.google.com/file/d/11bUGTwBGDlJ-xaZSrSfZTZDyUMgqvFga/view?usp=sharing"],
-    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800"
+const getImageForCertification = (title: string) => {
+  switch (title) {
+    case "AWS Cloud Practitioner":
+      return "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800";
+    case "IIT Kharagpur AI Internship":
+      return "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=800";
+    case "Salesforce Virtual Internship":
+      return "https://images.unsplash.com/photo-1557838923-2985c318be48?auto=format&fit=crop&q=80&w=800";
+    case "Power BI Architect":
+      return "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800";
+    case "Cyber Resilience":
+      return "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800";
+    case "Python Engine Core":
+      return "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&q=80&w=800";
+    case "DSA with Java and Beyond":
+      return "https://images.unsplash.com/photo-1516116216624-53e697fedbea?auto=format&fit=crop&q=80&w=800";
+    case "FSD Course Completion":
+      return "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=800";
+    default:
+      return "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800";
   }
-];
+};
 
 const CertificationsSection: React.FC = () => {
   const [activeGallery, setActiveGallery] = useState<string[] | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const resumeTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    dragFree: false,
+    containScroll: "trimSnaps",
+    slidesToScroll: 1,
+    align: "start",
+    skipSnaps: false,
+    duration: 900, // 900ms transition (800-1000ms range)
+    inViewThreshold: 0.5
+  });
+
+  const startAutoplay = useCallback(() => {
+    if (autoplayTimerRef.current) clearInterval(autoplayTimerRef.current);
+    autoplayTimerRef.current = setInterval(() => {
+      if (emblaApi) {
+        emblaApi.scrollNext(); // Right → Left autoplay
+      }
+    }, 2800); // 2.8 second interval (2.5-3s range)
+  }, [emblaApi]);
+
+  const resetAutoplay = useCallback(() => {
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    if (autoplayTimerRef.current) clearInterval(autoplayTimerRef.current);
+    resumeTimerRef.current = setTimeout(() => {
+      startAutoplay();
+    }, 3000); // Resume after 3 seconds
+  }, [startAutoplay]);
+
+  // Handle drag events
+  const onPointerDown = useCallback(() => {
+    resetAutoplay();
+  }, [resetAutoplay]);
 
   const openGallery = (urls: string[]) => {
     setActiveGallery(urls);
@@ -143,6 +97,8 @@ const CertificationsSection: React.FC = () => {
     return url;
   };
 
+
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && activeGallery) {
@@ -165,6 +121,15 @@ const CertificationsSection: React.FC = () => {
     };
   }, [activeGallery, closeGallery, nextImage, prevImage]);
 
+  // Start autoplay on mount and clean up on unmount
+  useEffect(() => {
+    startAutoplay();
+    return () => {
+      if (autoplayTimerRef.current) clearInterval(autoplayTimerRef.current);
+      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    };
+  }, [startAutoplay]);
+
   return (
     <section id="certifications" className="section-padding relative overflow-hidden bg-background">
       <div className="absolute top-1/2 -left-1/4 w-[600px] h-[600px] bg-primary/5 blur-[200px] rounded-full pointer-events-none animate-pulse"></div>
@@ -174,7 +139,7 @@ const CertificationsSection: React.FC = () => {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-24"
+          className="text-center mb-16"
         >
           <h3 className="text-primary font-display tracking-[0.5em] text-[10px] mb-4 uppercase">Credentials</h3>
           <h2 className="text-4xl md:text-7xl font-display font-bold leading-tight tracking-tighter">Elite <span className="gradient-text-cyan-blue">Certifications</span></h2>
@@ -183,64 +148,83 @@ const CertificationsSection: React.FC = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-          {certifications.map((cert, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="h-full"
-            >
-              <Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} perspective={2000} className="h-full">
-                <div className="glass-card rounded-[20px] h-full flex flex-col group border-white/10 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(34,211,238,0.15)] transition-all duration-700 bg-black/30 backdrop-blur-xl overflow-hidden relative">
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary"></div>
-                  
-                  <div className="relative h-[220px] overflow-hidden rounded-t-[20px]">
-                    <img 
-                      src={cert.image} 
-                      alt={cert.title}
-                      className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-500"></div>
+        {/* Embla Carousel */}
+        <div className="relative">
+          <div 
+            ref={emblaRef}
+            className="overflow-hidden"
+            onPointerDown={onPointerDown}
+          >
+            <div className="flex">
+              {portfolioData.certifications.map((cert, index) => {
+                const image = getImageForCertification(cert.title);
+                return (
+                  <div key={index} className="min-w-full sm:min-w-[50%] lg:min-w-[33.333%] pl-0 pr-4 sm:pr-6 lg:pr-8 last:pr-0">
+                    <Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} perspective={2000} className="h-full">
+                      <motion.div
+                        whileHover={{
+                          y: -8,
+                          scale: 1.03,
+                          boxShadow: '0 0 50px rgba(34,211,238,0.3)'
+                        }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 300,
+                          damping: 20
+                        }}
+                        className="glass-card rounded-[20px] h-full flex flex-col group border-white/10 bg-black/30 backdrop-blur-xl overflow-hidden relative"
+                      >
+                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary"></div>
+                        
+                        <div className="relative h-[220px] overflow-hidden rounded-t-[20px]">
+                          <motion.img 
+                            src={image} 
+                            alt={cert.title}
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                            whileHover={{ scale: 1.08 }}
+                            transition={{ duration: 0.6 }}
+                          />
+                          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-all duration-500"></div>
+                        </div>
+
+                        <div className="p-6 flex flex-col flex-grow">
+                          <div className="mb-4">
+                            <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-bold">{cert.type}</span>
+                          </div>
+                          
+                          <h3 className="text-xl font-display font-bold text-white group-hover:text-primary transition-colors leading-tight mb-4">
+                            {cert.title}
+                          </h3>
+                          
+                          <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-grow">
+                            {cert.description}
+                          </p>
+
+                          <div className="flex items-center gap-2 mb-6">
+                            <span className="text-xs font-medium text-white">{cert.issuer}</span>
+                          </div>
+
+                          <motion.button
+                            whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(34,211,238,0.4)' }}
+                            whileTap={{ scale: 0.97 }}
+                            onClick={() => openGallery(cert.credentials)}
+                            className="w-full px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold text-sm transition-all flex items-center justify-between gap-3 group"
+                          >
+                            <div className="flex items-center gap-2">
+                              <Eye className="w-5 h-5" />
+                              View Certificate
+                            </div>
+                            <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                          </motion.button>
+                        </div>
+                      </motion.div>
+                    </Tilt>
                   </div>
-
-                  <div className="p-6 flex flex-col flex-grow">
-                    <div className="mb-4">
-                      <span className="text-[10px] tracking-[0.4em] uppercase text-primary font-bold">{cert.type}</span>
-                    </div>
-                    
-                    <h3 className="text-xl font-display font-bold text-white group-hover:text-primary transition-colors leading-tight mb-4">
-                      {cert.title}
-                    </h3>
-                    
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-grow">
-                      {cert.description}
-                    </p>
-
-                    <div className="flex items-center gap-2 mb-6">
-                      <span className="text-xs font-medium text-white">{cert.issuer}</span>
-                    </div>
-
-                    <motion.button
-                      whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(34,211,238,0.4)' }}
-                      whileTap={{ scale: 0.97 }}
-                      onClick={() => openGallery(cert.credentials)}
-                      className="w-full px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold text-sm transition-all flex items-center justify-between gap-3 group"
-                    >
-                      <div className="flex items-center gap-2">
-                        <Eye className="w-5 h-5" />
-                        View Certificate
-                      </div>
-                      <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </motion.button>
-                  </div>
-                </div>
-              </Tilt>
-            </motion.div>
-          ))}
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 

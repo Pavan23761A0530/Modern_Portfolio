@@ -1,12 +1,48 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Shield, Eye, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { Shield, Eye, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
 import Tilt from 'react-parallax-tilt';
+import useEmblaCarousel from 'embla-carousel-react';
 import { portfolioData } from '@/lib/portfolioData';
 
 const AchievementsSection: React.FC = () => {
   const [activeGallery, setActiveGallery] = useState<string[] | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const autoplayTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const resumeTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    dragFree: false,
+    containScroll: "trimSnaps",
+    slidesToScroll: 1,
+    align: "start",
+    skipSnaps: false,
+    duration: 900, // 900ms transition (800-1000ms range)
+    inViewThreshold: 0.5
+  });
+
+  const startAutoplay = useCallback(() => {
+    if (autoplayTimerRef.current) clearInterval(autoplayTimerRef.current);
+    autoplayTimerRef.current = setInterval(() => {
+      if (emblaApi) {
+        emblaApi.scrollPrev(); // Left → Right autoplay
+      }
+    }, 2800); // 2.8 second interval (2.5-3s range)
+  }, [emblaApi]);
+
+  const resetAutoplay = useCallback(() => {
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    if (autoplayTimerRef.current) clearInterval(autoplayTimerRef.current);
+    resumeTimerRef.current = setTimeout(() => {
+      startAutoplay();
+    }, 3000); // Resume after 3 seconds
+  }, [startAutoplay]);
+
+  // Handle drag events
+  const onPointerDown = useCallback(() => {
+    resetAutoplay();
+  }, [resetAutoplay]);
 
   const openGallery = (urls: string[]) => {
     setActiveGallery(urls);
@@ -38,6 +74,8 @@ const AchievementsSection: React.FC = () => {
     return url;
   };
 
+
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && activeGallery) {
@@ -59,6 +97,15 @@ const AchievementsSection: React.FC = () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [activeGallery, closeGallery, nextImage, prevImage]);
+
+  // Start autoplay on mount and clean up on unmount
+  useEffect(() => {
+    startAutoplay();
+    return () => {
+      if (autoplayTimerRef.current) clearInterval(autoplayTimerRef.current);
+      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    };
+  }, [startAutoplay]);
 
   const getImageForAchievement = (id: string) => {
     switch (id) {
@@ -90,73 +137,89 @@ const AchievementsSection: React.FC = () => {
           <h2 className="text-3xl sm:text-4xl md:text-6xl font-display font-bold leading-tight tracking-tighter">My <span className="gradient-text-cyan-blue">Achievements</span></h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-stretch">
-          {portfolioData.achievements.map((item, index) => {
-            const image = getImageForAchievement(item.id);
+        {/* Embla Carousel */}
+        <div className="relative">
+          <div 
+            ref={emblaRef}
+            className="overflow-hidden"
+            onPointerDown={onPointerDown}
+          >
+            <div className="flex">
+              {portfolioData.achievements.map((item, index) => {
+                const image = getImageForAchievement(item.id);
 
-            return (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                className="h-full"
-              >
-                <Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} perspective={2000} className="h-full">
-                  <div className="glass-card rounded-[20px] flex flex-col group border-white/10 hover:border-primary/40 hover:shadow-[0_0_40px_rgba(34,211,238,0.15)] transition-all duration-700 bg-black/30 backdrop-blur-xl overflow-hidden h-full relative">
-                    {/* Accent Line at Top */}
-                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary" />
-                    
-                    {/* Image Section */}
-                    <div className="relative h-[220px] overflow-hidden rounded-t-[20px]">
-                       <img 
-                        src={image} 
-                        alt={item.title} 
-                        className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                    </div>
+                return (
+                  <div key={item.id} className="min-w-full sm:min-w-[50%] lg:min-w-[33.333%] pl-0 pr-4 sm:pr-6 lg:pr-8 last:pr-0">
+                    <Tilt tiltMaxAngleX={3} tiltMaxAngleY={3} perspective={2000} className="h-full">
+                      <motion.div
+                        whileHover={{
+                          y: -8,
+                          scale: 1.03,
+                          boxShadow: '0 0 50px rgba(34,211,238,0.3)'
+                        }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 300,
+                          damping: 20
+                        }}
+                        className="glass-card rounded-[20px] flex flex-col group border-white/10 bg-black/30 backdrop-blur-xl overflow-hidden h-full relative"
+                      >
+                        {/* Accent Line at Top */}
+                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-secondary" />
+                        
+                        {/* Image Section */}
+                        <div className="relative h-[220px] overflow-hidden rounded-t-[20px]">
+                           <motion.img 
+                            src={image} 
+                            alt={item.title} 
+                            className="w-full h-full object-cover"
+                            loading="lazy"
+                            whileHover={{ scale: 1.08 }}
+                            transition={{ duration: 0.6 }}
+                          />
+                        </div>
 
-                    {/* Content Section */}
-                    <div className="p-6 flex flex-col flex-grow">
-                      <div className="mb-4">
-                        <span className="text-[10px] tracking-[0.3em] font-bold text-primary uppercase">{item.category}</span>
-                      </div>
-                      
-                      <h3 className="text-xl font-display font-bold text-white group-hover:text-primary transition-colors leading-tight mb-4">
-                        {item.title}
-                      </h3>
-                      
-                      <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-grow">
-                        {item.description}
-                      </p>
-
-                      <div className="flex items-center gap-2 mb-6">
-                        <Shield className="w-4 h-4 text-primary" />
-                        <span className="text-xs font-medium text-white">{item.metric}</span>
-                      </div>
-
-                      {item.credentials && (
-                        <motion.button
-                          whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(34,211,238,0.4)' }}
-                          whileTap={{ scale: 0.97 }}
-                          onClick={() => openGallery(item.credentials!)}
-                          className="w-full px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold text-sm transition-all flex items-center justify-between gap-3 group"
-                        >
-                          <div className="flex items-center gap-2">
-                            <Eye className="w-5 h-5" />
-                            View Credentials
+                        {/* Content Section */}
+                        <div className="p-6 flex flex-col flex-grow">
+                          <div className="mb-4">
+                            <span className="text-[10px] tracking-[0.3em] font-bold text-primary uppercase">{item.category}</span>
                           </div>
-                          <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </motion.button>
-                      )}
-                    </div>
+                          
+                          <h3 className="text-xl font-display font-bold text-white group-hover:text-primary transition-colors leading-tight mb-4">
+                            {item.title}
+                          </h3>
+                          
+                          <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-grow">
+                            {item.description}
+                          </p>
+
+                          <div className="flex items-center gap-2 mb-6">
+                            <Shield className="w-4 h-4 text-primary" />
+                            <span className="text-xs font-medium text-white">{item.metric}</span>
+                          </div>
+
+                          {item.credentials && (
+                            <motion.button
+                              whileHover={{ scale: 1.05, boxShadow: '0 0 30px rgba(34,211,238,0.4)' }}
+                              whileTap={{ scale: 0.97 }}
+                              onClick={() => openGallery(item.credentials!)}
+                              className="w-full px-6 py-3.5 rounded-xl bg-gradient-to-r from-primary to-secondary text-white font-bold text-sm transition-all flex items-center justify-between gap-3 group"
+                            >
+                              <div className="flex items-center gap-2">
+                                <Eye className="w-5 h-5" />
+                                View Credentials
+                              </div>
+                              <ExternalLink className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </motion.button>
+                          )}
+                        </div>
+                      </motion.div>
+                    </Tilt>
                   </div>
-                </Tilt>
-              </motion.div>
-            );
-          })}
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
 
