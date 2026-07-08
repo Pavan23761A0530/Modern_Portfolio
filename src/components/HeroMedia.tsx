@@ -38,14 +38,7 @@ const HeroMedia = memo(() => {
             transition={{ duration: 0.6, ease: 'easeInOut' }}
             style={{ transformStyle: 'preserve-3d' }}
           >
-            <div
-              className="relative"
-              style={{
-                width: '620px',
-                height: '350px',
-                maxWidth: '100%',
-              }}
-            >
+            <div className="relative w-full max-w-[620px] aspect-video">
               <video
                 ref={videoRef}
                 src="/intro.mp4"
@@ -67,17 +60,16 @@ const HeroMedia = memo(() => {
             transition={{ duration: 0.6, ease: 'easeInOut' }}
             style={{ transformStyle: 'preserve-3d' }}
           >
-            {/* Original Portrait Styling from git */}
+            {/* Original Portrait Styling from git, responsive */}
             <div className="relative">
               <div className="absolute -inset-1.5 bg-gradient-to-r from-primary via-secondary to-primary rounded-[2.5rem] blur-xl opacity-40"></div>
               <div className="relative glass-card p-2 rounded-[2.5rem] overflow-hidden border-primary/20 backdrop-blur-xl">
                 <img
                   src={pavanPic}
                   alt="Kommoju Pavan Kumar Ganesh"
-                  className="object-cover object-[center_20%] rounded-[2rem]"
+                  className="object-cover object-[center_20%] rounded-[2rem] w-full max-w-[470px]"
                   style={{
-                    width: '470px',
-                    height: '620px',
+                    aspectRatio: '470/620',
                     maxWidth: '100%',
                   }}
                 />
