@@ -36,24 +36,24 @@ const LoadingScreen: React.FC = () => {
     };
   }, []);
 
-  if (isDone) return null;
-
   return (
     <motion.div
       initial={{ opacity: 1 }}
+      animate={{ opacity: isDone ? 0 : 1 }}
       exit={{ opacity: 0 }}
       className="fixed inset-0 z-[500] bg-black flex flex-col items-center justify-center p-6 overflow-hidden"
+      style={{ pointerEvents: isDone ? 'none' : 'auto' }}
     >
       {/* Background Neural Matrix Overlay */}
-      <div className="absolute inset-0 opacity-[0.05] pointer-events-none">
+      <div className="absolute inset-0 opacity-[0.05] pointer-events-none">     
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:40px_40px]"></div>
       </div>
 
-      <div className="relative w-full max-w-xl flex flex-col items-center">
+      <div className="relative w-full max-w-xl flex flex-col items-center">     
         {/* Animated Brand Core */}
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+          transition={{ duration: 10, repeat: Infinity, ease: "linear" }}       
           className="w-32 h-32 rounded-[2.5rem] bg-primary/10 border-2 border-primary/40 flex items-center justify-center mb-12 shadow-[0_0_50px_rgba(0,255,255,0.2)] relative group"
         >
           <Cpu size={60} className="text-primary animate-pulse" />
@@ -77,12 +77,12 @@ const LoadingScreen: React.FC = () => {
 
            {/* Progress Bar Container */}
            <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden border border-white/10 relative">
-              <motion.div 
+              <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 className="h-full bg-gradient-to-r from-primary via-accent to-primary shadow-[0_0_20px_rgba(0,255,255,0.4)]"
               />
-              <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.2)_50%,transparent_100%)] animate-shimmer"></div>
+              <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.2)_50%,transparent_100%)] animate-shimmer"></div>    
            </div>
 
            {/* AI Logs Terminal */}
@@ -99,8 +99,8 @@ const LoadingScreen: React.FC = () => {
                     <span className="tracking-[0.4em] font-black uppercase">{AI_STEPS[currentStep].text}</span>
                  </motion.div>
               </AnimatePresence>
-              
-              <div className="mt-4 flex gap-1 opacity-20 overflow-hidden">
+
+              <div className="mt-4 flex gap-1 opacity-20 overflow-hidden">      
                  {[...Array(20)].map((_, i) => (
                     <div key={i} className="w-[1px] h-3 bg-primary animate-pulse" style={{ animationDelay: `${i*0.1}s` }}></div>
                  ))}
@@ -108,14 +108,14 @@ const LoadingScreen: React.FC = () => {
            </div>
         </div>
 
-        <div className="mt-12 opacity-20 flex flex-col items-center gap-2">
+        <div className="mt-12 opacity-20 flex flex-col items-center gap-2">     
            <Sparkles size={20} className="text-primary" />
            <span className="text-[8px] tracking-[1em] uppercase font-bold">Initializing Premium Interface</span>
         </div>
       </div>
-      
+
       {/* HUD Edge Elements */}
-      <div className="absolute top-10 left-10 opacity-20 flex flex-col gap-2">
+      <div className="absolute top-10 left-10 opacity-20 flex flex-col gap-2">  
          {[1,2,3,4].map(i => <div key={i} className="w-12 h-[2px] bg-primary"></div>)}
       </div>
       <div className="absolute bottom-10 right-10 opacity-20 flex flex-col gap-2 items-end">

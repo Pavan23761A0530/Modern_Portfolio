@@ -1,10 +1,8 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Github, Linkedin, Mail, Download, ArrowRight } from 'lucide-react';
+import { Github, Linkedin, Mail, Download, ArrowRight } from 'lucide-react';    
 import Typewriter from 'typewriter-effect';
-import Tilt from 'react-parallax-tilt';
-
-import pavanPic from '@/assets/pavanpic.png';
+import HeroMedia from '@/components/HeroMedia';
 
 const HeroSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -138,49 +136,14 @@ const HeroSection: React.FC = () => {
             </div>
           </motion.div>
 
-          {/* Right Content - Profile Image */}
+          {/* Right Content - HeroMedia (Video to Photo) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.4, ease: "easeOut", delay: 0.4 }}
             className="flex justify-center relative mt-12 lg:mt-0"
           >
-            <Tilt
-              tiltMaxAngleX={5}
-              tiltMaxAngleY={5}
-              perspective={2000}
-              scale={1.02}
-              className="relative z-10"
-            >
-              <div className="relative group">
-                {/* Animated Glow Layers */}
-                <div className="absolute -inset-2 bg-gradient-to-r from-primary via-secondary to-accent rounded-[2rem] blur-xl opacity-20 group-hover:opacity-40 transition-all duration-1000 animate-gradient-xy"></div>
-                
-                {/* Main Glass Card */}
-                <div className="relative glass-card p-3 rounded-[2rem] overflow-hidden backdrop-blur-xl border-white/10 group-hover:border-primary/40 transition-all duration-700">
-                  <div className="w-[260px] h-[340px] sm:w-[320px] sm:h-[410px] md:w-[380px] md:h-[480px] lg:w-[400px] lg:h-[500px] overflow-hidden rounded-[1.7rem] relative">
-                    {/* Inner Gradient Border */}
-                    <div className="absolute inset-0 p-[2px] rounded-[1.7rem] bg-gradient-to-r from-primary/50 via-secondary/50 to-accent/50">
-                      <div className="w-full h-full bg-background/80 rounded-[1.6rem] overflow-hidden relative">
-                        <motion.img 
-                          src={pavanPic} 
-                          alt="Kommoju Pavan Kumar Ganesh"
-                          className="w-full h-full object-cover object-[center_20%] transition-all duration-1000"
-                          initial={{ scale: 1.15 }}
-                          whileInView={{ scale: 1.05 }}
-                          viewport={{ once: true }}
-                          whileHover={{ scale: 1 }}
-                          loading="lazy"
-                        />
-                        
-                        {/* Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Tilt>
+            <HeroMedia />
           </motion.div>
 
         </div>
