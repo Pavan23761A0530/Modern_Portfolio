@@ -67,10 +67,9 @@ const HeroMedia = memo(() => {
                 <img
                   src={pavanPic}
                   alt="Kommoju Pavan Kumar Ganesh"
-                  className="object-cover object-[center_20%] rounded-[2rem] w-full max-w-[470px]"
+                  className="object-cover object-[center_20%] rounded-[2rem] w-full max-w-[320px] sm:max-w-[360px] md:max-w-[400px]"
                   style={{
                     aspectRatio: '470/620',
-                    maxWidth: '100%',
                   }}
                 />
               </div>
