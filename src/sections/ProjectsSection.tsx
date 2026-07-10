@@ -33,6 +33,21 @@ const categories = [
 
 const projects: Project[] = [
   {
+    id: "krr-brightminds",
+    title: "KRR BrightMinds School – Smart School Management Platform",
+    category: "web",
+    description: "Built a modern MERN Stack school management platform that transforms a traditional school website into a dynamic digital ecosystem. The platform includes online admissions, student management, transport tracking, fee management, event updates, gallery, contact system, responsive UI, and an intuitive admin panel for managing school content efficiently.",
+    longDesc: "A comprehensive school management platform designed to streamline administrative tasks and enhance communication between the school, parents, and students. Features include online admissions, student and staff management, transport tracking, fee management, event calendar, photo gallery, and a full-featured admin panel.",
+    problem: "Traditional school management systems are often fragmented, paper-based, and lack modern digital tools for efficient administration and communication.",
+    solution: "A fully responsive MERN Stack application with a user-friendly interface, role-based access control, and real-time updates for all school operations.",
+    tech: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "JavaScript", "REST API", "JWT Authentication"],
+    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=1000",
+    githubUrl: "https://github.com/Pavan23761A0530/krr_school_website",
+    liveUrl: "https://intern-1-9i3m.onrender.com",
+    icon: Globe,
+    featured: true
+  },
+  {
     id: "homebell",
     title: "HomeBell – Smart Household Services Platform",
     category: "web",
