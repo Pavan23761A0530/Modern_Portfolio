@@ -6,6 +6,7 @@ import Tilt from 'react-parallax-tilt';
 import carPriceImg from '@/assets/car-price-project.jpg';
 import eyewearImg from '@/assets/eyewear-project.jpg';
 import homeBellImg from '@/assets/house-tax-project.jpg';
+import krrSchoolImg from '@/assets/krr-school-project.jpg';
 
 interface Project {
   id: string;
@@ -41,7 +42,7 @@ const projects: Project[] = [
     problem: "Traditional school management systems are often fragmented, paper-based, and lack modern digital tools for efficient administration and communication.",
     solution: "A fully responsive MERN Stack application with a user-friendly interface, role-based access control, and real-time updates for all school operations.",
     tech: ["React.js", "Node.js", "Express.js", "MongoDB", "Tailwind CSS", "JavaScript", "REST API", "JWT Authentication"],
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&q=80&w=1000",
+    image: krrSchoolImg,
     githubUrl: "https://github.com/Pavan23761A0530/krr_school_website",
     liveUrl: "https://intern-1-9i3m.onrender.com",
     icon: Globe,
